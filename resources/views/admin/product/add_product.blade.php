@@ -38,7 +38,7 @@
                             <input type="text" data-validation="length" data-validation-length="min5" data-validation-error-msg="Làm ơn điền số tiền" name="price_cost" class="form-control price_format" id="" placeholder="Giá gốc">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>
+                            <label for="exampleInputEmail1">Ảnh bìa</label>
                             <input require type="file" name="product_image" class="form-control" id="exampleInputEmail1">
                         </div>
                         <div class="form-group">
@@ -58,10 +58,10 @@
                                 <select name="product_cate" class="form-control input-sm m-bot15">
                                 @foreach($cate_product as $key => $cate)
                                     @if($cate->category_parent==0)
-                                            <option style="font-size: 15px" value="{{$cate->category_id}}">{{$cate->category_name}}</option>
+                                            <option value="{{$cate->category_id}}">{{$cate->category_name}}</option>
                                         @foreach($cate_product as $key => $cate_sub)
                                             @if($cate_sub->category_parent!=0 && $cate_sub->category_parent==$cate->category_id)
-                                            <option style="font-size: 15px" value="{{$cate_sub->category_id}}">--- {{$cate_sub->category_name}}</option>   
+                                            <option value="{{$cate_sub->category_id}}">--- {{$cate_sub->category_name}}</option>   
                                             @endif
                                         @endforeach
                                     @endif

@@ -134,7 +134,6 @@ class ProductController extends Controller
 
     public function quickview(Request $request)
     {
-
         $product_id = $request->product_id;
         $product = Product::find($product_id);
 
@@ -238,11 +237,11 @@ class ProductController extends Controller
         }
         $pro_id = DB::table('tbl_product')->insertGetId($data);
         //Tạo mới Gallery
-        $gallery = new Gallery();
-        $gallery->gallery_image = $new_image;
-        $gallery->gallery_name = $new_image;
-        $gallery->product_id = $pro_id;
-        $gallery->save();
+        $gallery = array();
+        $gallery['gallery_image'] = $new_image;
+        $gallery['gallery_name'] = $new_image;
+        $gallery['product_id'] = $pro_id;
+        DB::table('tbl_gallery')->insert($gallery);
 
         Session()->put('message', 'Thêm sản phẩm thành công');
         return Redirect::to('all-product');
@@ -254,6 +253,7 @@ class ProductController extends Controller
         Session()->put('message', 'Đã ẩn sản phẩm');
         return Redirect::to('all-product');
     }
+
     public function active_product($product_id)
     {
         $this->AuthLogin();
@@ -261,6 +261,7 @@ class ProductController extends Controller
         Session()->put('message', 'Đã hiển thị sản phẩm');
         return Redirect::to('all-product');
     }
+
     public function edit_product($product_id)
     {
         $this->AuthLogin();
@@ -271,6 +272,7 @@ class ProductController extends Controller
         // return view('admin_layout')->with('admin.product.edit_product', $manager_product);
         return view('admin.product.edit_product')->with(compact('edit_product', 'cate_product', 'brand_product'));
     }
+
     public function update_product(Request $request, $product_id)
     {
         $this->AuthLogin();
@@ -293,40 +295,53 @@ class ProductController extends Controller
         $get_image = $request->file('product_image');
         $get_document = $request->file('document');
 
+        $path = 'public/uploads/product/';
+        $path_gallery = 'public/uploads/gallery/';
         $path_document = 'public/uploads/document/';
 
+        //lay file old document 
+        $product = Product::find($product_id);
+
+        //Thêm hình ảnh
         if ($get_image) {
             $get_name_image = $get_image->getClientOriginalName();
             $name_image = current(explode('.', $get_name_image));
             $new_image =  $name_image . rand(0, 99) . '.' . $get_image->getClientOriginalExtension();
             $get_image->move('public/uploads/product', $new_image);
+            File::copy($path . $new_image, $path_gallery . $new_image);
             $data['product_image'] = $new_image;
-            DB::table('tbl_product')->where('product_id', $product_id)->update($data);
-            Session()->put('message', 'Cập nhật sản phẩm thành công');
-            return Redirect::to('all-product');
-        }
-        //them document
-        if ($get_document) {
 
+            if($product->product_image) {
+                unlink($path . $product->product_image);
+            }
+            // DB::table('tbl_product')->where('product_id', $product_id)->update($data);
+            // Session()->put('message', 'Cập nhật sản phẩm thành công');
+            // return Redirect::to('all-product');
+        }
+        //Thêm document
+        if ($get_document) {
             $get_name_document = $get_document->getClientOriginalName();
             $name_document = current(explode('.', $get_name_document));
             $new_document =  $name_document . rand(0, 99) . '.' . $get_document->getClientOriginalExtension();
             $get_document->move($path_document, $new_document);
             $data['product_file'] = $new_document;
 
-            //lay file old document 
-            $product = Product::find($product_id);
-
             if ($product->product_file) {
                 unlink($path_document . $product->product_file);
             }
         }
+        //Update Gallery
+        $gallery = array();
+        $gallery['gallery_image'] = $new_image;
+        $gallery['gallery_name'] = $new_image;
+        // $gallery['product_id'] = $product->product_id;
+        Gallery::where('product_id', $product_id)->where('gallery_name', $product->product_image)->update($gallery);
+
         DB::table('tbl_product')->where('product_id', $product_id)->update($data);
-
-
         Session()->put('message', 'Cập nhật sản phẩm thành công');
         return Redirect::to('all-product');
     }
+
     public function delete_document(Request $request)
     {
         //lay file old document 
@@ -336,6 +351,7 @@ class ProductController extends Controller
         $product->product_file = '';
         $product->save();
     }
+
     public function delete_product($product_id)
     {
         $this->AuthLogin();

@@ -870,7 +870,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             // alert(pro_id);
             $.ajax({
                 url: "{{url('/select-gallery')}}",
-                method: "POST",
+                method: "GET",
                 data: {
                     pro_id: pro_id,
                     _token: _token
@@ -924,7 +924,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         $(document).on('click', '.delete-gallery', function() {
             var gal_id = $(this).data('gal_id');
-
             var _token = $('input[name="_token"]').val();
             if (confirm('Bạn muốn xóa hình ảnh này không?')) {
                 $.ajax({
@@ -943,17 +942,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         });
 
         $(document).on('change', '.file_image', function() {
-
             var gal_id = $(this).data('gal_id');
             var image = document.getElementById("file-" + gal_id).files[0];
 
             var form_data = new FormData();
-
-            form_data.append("file", document.getElementById("file-" + gal_id).files[0]);
             form_data.append("gal_id", gal_id);
-
-
-
+            form_data.append("file", image);
+            
             $.ajax({
                 url: "{{url('/update-gallery')}}",
                 method: "POST",
@@ -961,7 +956,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data: form_data,
-
                 contentType: false,
                 cache: false,
                 processData: false,

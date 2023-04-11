@@ -39,7 +39,7 @@
                             <input type="text" data-validation="length" data-validation-length="min5"  data-validation-error-msg="Làm ơn điền số tiền" name="price_cost" class="form-control price_format" id="" value="{{$pro->price_cost}}">
                         </div>
                             <div class="form-group">
-                            <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>
+                            <label for="exampleInputEmail1">Ảnh bìa</label>
                             <input type="file" name="product_image" class="form-control" id="exampleInputEmail1">
                             <img src="{{URL::to('public/uploads/product/'.$pro->product_image)}}" height="100" width="100">
                         </div>
@@ -76,13 +76,20 @@
                             <label for="exampleInputPassword1">Danh mục sản phẩm</label>
                                 <select name="product_cate" class="form-control input-sm m-bot15">
                                 @foreach($cate_product as $key => $cate)
-                                    @if($cate->category_id==$pro->category_id)
+                                    @if ($cate->category_parent == 0)
+                                                <option {{ $cate->category_id == $pro->category_id ? 'selected' : ''}} value="{{$cate->category_id}}">{{$cate->category_name}}</option>
+                                        @foreach ($cate_product as $key2 => $cate2)
+                                            @if ($cate2->category_parent == $cate->category_id)
+                                                <option {{ $cate2->category_id == $pro->category_id ? 'selected' : ''}} value="{{$cate2->category_id}}">--- {{$cate2->category_name}}</option>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                    <!-- @if($cate->category_id==$pro->category_id)
                                     <option selected value="{{$cate->category_id}}">{{$cate->category_name}}</option>
                                     @else
                                     <option value="{{$cate->category_id}}">{{$cate->category_name}}</option>
-                                    @endif
+                                    @endif -->
                                 @endforeach
-                                    
                             </select>
                         </div>
                             <div class="form-group">
