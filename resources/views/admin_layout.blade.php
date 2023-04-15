@@ -39,7 +39,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" type="text/css" />
 
-    <link rel="icon" href="{{asset('public/frontend/images/logo-mail.png')}}" type="image/gif" sizes="32x32">
+    <link rel="icon" href="{{asset('public/frontend/images/logo_icon.png')}}" type="image/gif" sizes="32x32">
     <!-- calendar -->
 
 
@@ -138,11 +138,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
-                                <span>Banner</span>
+                                <span>Slider</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="{{URL::to('/manage-slider')}}">Liệt kê Banner</a></li>
-                                <li><a href="{{URL::to('/add-slider')}}">Thêm Banner</a></li>
+                                <li><a href="{{URL::to('/add-slider')}}">Thêm Slider</a></li>
+                                <li><a href="{{URL::to('/manage-slider')}}">Liệt kê Slider</a></li>
                             </ul>
                         </li>
 

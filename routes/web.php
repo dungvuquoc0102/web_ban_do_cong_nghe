@@ -202,7 +202,7 @@ Route::post('/insert-delivery', 'DeliveryController@insert_delivery');
 Route::post('/select-feeship', 'DeliveryController@select_feeship');
 Route::post('/update-delivery', 'DeliveryController@update_delivery');
 
-//Banner
+//Slider
 Route::get('/manage-slider', 'SliderController@manage_slider');
 Route::get('/add-slider', 'SliderController@add_slider');
 Route::get('/delete-slide/{slide_id}', 'SliderController@delete_slide');

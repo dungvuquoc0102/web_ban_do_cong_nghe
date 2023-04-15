@@ -123,11 +123,11 @@ class HomeController extends Controller
         //category post
         $category_post = CatePost::orderBy('cate_post_id', 'DESC')->get();
         //slide
-        $slider = Slider::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
+        $slider = Slider::orderBy('slider_id', 'DESC')->where('slider_status', '1')->get();
         //seo 
         $meta_desc = "Chuyên bán những phụ kiện ,thiết bị game";
         $meta_keywords = "thiet bi game,phu kien game,game phu kien,game giai tri";
-        $meta_title = "Phụ kiện,máy chơi game chính hãng";
+        $meta_title = "Trang chủ - DTech";
         $url_canonical = $request->url();
         //category product
         $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderby('category_parent', 'desc')->orderby('category_order', 'ASC')->get();

@@ -12,7 +12,7 @@
         <meta name="author" content="">
 
         <!-- logo-icon  -->
-        <link rel="icon" href="{{asset('public/frontend/images/logo-mail.png')}}" type="image/gif" sizes="32x32">
+        <link rel="icon" href="{{asset('public/frontend/images/logo_icon.png')}}" type="image/gif" sizes="32x32">
 
         <!-- token  -->
         <meta name="csrf-token" content="{{csrf_token()}}">

@@ -238,11 +238,6 @@ a#scrollUp i {
     padding-left: 0;
 }
 
-.mainmenu ul li {
-    padding-right: 15px;
-    padding-left: 15px;
-}
-
 .mainmenu ul li:first-child {
     padding-left: 0px;
 }
@@ -252,7 +247,7 @@ a#scrollUp i {
     font-family: "Roboto", sans-serif;
     font-size: 17px;
     font-weight: 300;
-    padding: 0;
+    padding: 10px;
     /* padding-bottom: 10px; */
 }
 
@@ -297,8 +292,8 @@ a#scrollUp i {
 
 ul.sub-menu {
     position: absolute;
-    top: 30px;
-    left: 0;
+    /* top: 30px;
+    left: 0; */
     background: rgba(0, 0, 0, 0.6);
     list-style: none;
     padding: 0;

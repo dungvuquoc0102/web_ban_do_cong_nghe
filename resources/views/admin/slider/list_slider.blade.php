@@ -3,7 +3,7 @@
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading">
-      Liệt kê Banner
+      Liệt kê Slider
     </div>
     <div class="table-responsive">
       <?php
@@ -16,25 +16,24 @@
       <table class="table table-striped b-t b-light" id="myTable">
         <thead>
           <tr>
-            <th style="width:20px;">
+            <!-- <th style="width:20px;">
               <label class="i-checks m-b-none">
                 <input type="checkbox"><i></i>
               </label>
-            </th>
+            </th> -->
             <th>Tên slide</th>
             <th>Hình ảnh</th>
             <th>Mô tả</th>
             <th>Tình trạng</th>
-
             <th style="width:30px;"></th>
           </tr>
         </thead>
         <tbody>
           @foreach($all_slide as $key => $slide)
           <tr>
-            <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+            <!-- <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td> -->
             <td>{{ $slide->slider_name }}</td>
-            <td><img src="public/uploads/slider/{{ $slide->slider_image }}" height="120" width="500"></td>
+            <td><img src="public/uploads/slider/{{ $slide->slider_image }}" alt="{{ $slide->slider_desc }}" height="100"></td>
             <td>{{ $slide->slider_desc }}</td>
             <td><span class="text-ellipsis">
                 <?php
@@ -50,11 +49,9 @@
                 ?>
               </span></td>
             <td>
-
               <a onclick="return confirm('Bạn có chắc là muốn xóa slide này ko?')" href="{{URL::to('/delete-slide/'.$slide->slider_id)}}" class="active styling-edit" ui-toggle-class="">
                 <i class="fa fa-times text-danger text"></i>
               </a>
-
             </td>
           </tr>
           @endforeach
