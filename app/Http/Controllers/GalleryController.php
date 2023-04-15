@@ -118,12 +118,11 @@ class GalleryController extends Controller
 									<th>Thứ tự</th>
 									<th>Tên hình ảnh</th>
 									<th>Hình ảnh</th>
-									<th>Quản lý</th>
+									<th>Thao tác</th>
 								</tr>
 							</thead>
 							<tbody>';
 		if ($gallery_count > 0) {
-			$i = 0;
 			foreach ($gallery as $key => $gal) {
 				// $i++;
 					$output .=  '<tr>
@@ -133,10 +132,12 @@ class GalleryController extends Controller
 										<img src="' . url('public/uploads/gallery/' . $gal->gallery_image) . '" class="img-thumbnail" style="width: 100px;">
 										<input type="file" class="file_image" style="width:40%" data-gal_id="' . $gal->gallery_id . '" id="file-' . $gal->gallery_id . '" name="file" accept="image/*" />
 									</td>
-									<td>
-										<button type="button" data-gal_id="' . $gal->gallery_id . '" class="btn btn-xs btn-danger delete-gallery">Xóa</button>
-									</td>
-								</tr>';
+									<td>';
+					if(Product::find($product_id)->product_image != $gal->gallery_image) {
+						$output .= '<button type="button" data-gal_id="' . $gal->gallery_id . '" class="btn btn-xs btn-danger delete-gallery">Xóa</button>
+						</td>
+					</tr>';
+					}
 			}
 		} else {
 					$output .=  '<tr>

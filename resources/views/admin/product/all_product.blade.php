@@ -40,7 +40,7 @@
             <!-- <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td> -->
             <td><img src="public/uploads/product/{{ $pro->product_image }}" height="50" width="50"></td>
             <td style="font-weight: bold; color: #000;">{{ $pro->product_name }}</td>
-            <td><a href="{{url('/add-gallery/'.$pro->product_id)}}">Sửa</a></td>
+            <td><a href="{{url('/add-gallery/'.$pro->product_id)}}">Sửa ảnh</a></td>
             <td>{{ $pro->product_quantity }}</td>
             <td>₫{{ number_format($pro->product_price,0,',','.') }}</td>
             <td>₫{{ number_format($pro->price_cost,0,',','.') }}</td>

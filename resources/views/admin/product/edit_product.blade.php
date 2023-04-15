@@ -23,12 +23,12 @@
                             <input type="text" name="product_name" class="form-control" onkeyup="ChangeToSlug();" id="slug" value="{{$pro->product_name}}">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">SL sản phẩm</label>
-                            <input type="text" data-validation="number" data-validation-error-msg="Làm ơn điền số lượng" name="product_quantity" class="form-control" id="convert_slug" value="{{$pro->product_quantity}}">
+                            <label for="exampleInputEmail1">Số lượng sản phẩm</label>
+                            <input type="text" data-validation="number" data-validation-error-msg="Làm ơn điền số lượng" name="product_quantity" class="form-control" id="exampleInputEmail1" value="{{$pro->product_quantity}}">
                         </div>
                             <div class="form-group">
                             <label for="exampleInputEmail1">Slug</label>
-                            <input type="text" name="product_slug" class="form-control" id="exampleInputEmail1" value="{{$pro->product_slug}}">
+                            <input type="text" name="product_slug" class="form-control" id="convert_slug" value="{{$pro->product_slug}}">
                         </div>
                                 <div class="form-group">
                             <label for="exampleInputEmail1">Giá bán</label>

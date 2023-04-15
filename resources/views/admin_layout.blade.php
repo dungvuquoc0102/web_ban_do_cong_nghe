@@ -319,6 +319,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             filebrowserUploadUrl: 'laravel-filemanager/upload?type=Files&_token='
         };
     </script>
+
     <script>
         CKEDITOR.replace('my-editor', options);
     </script>
@@ -341,6 +342,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             });
         });
     </script>
+
     <script type="text/javascript">
         list_nut();
 
@@ -369,7 +371,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             });
         }
         $('.add-nut').click(function() {
-
             var name = $('#name').val();
             var link = $('#link').val();
             var image = $('#image_nut')[0].files[0];
@@ -378,9 +379,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             form_data.append('file', image);
             form_data.append('name', name);
             form_data.append('link', link);
-
-
-
 
             $.ajax({
                 url: "{{url('/add-nut')}}",
@@ -748,6 +746,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         });
     </script>
+    
     <script type="text/javascript">
         $(document).ready(function() {
             load_video();
@@ -861,9 +860,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         });
     </script>
+    
+    <!-- add_gallery -->
     <script type="text/javascript">
         load_gallery();
-
         function load_gallery() {
             var pro_id = $('.pro_id').val();
             var _token = $('input[name="_token"]').val();
@@ -884,7 +884,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         $('#file').change(function() {
             var error = '';
             var files = $('#file')[0].files;
-
             if (files.length > 5) {
                 error += '<p>Bạn chọn tối đa chỉ được 5 ảnh</p>';
             } else if (files.length == '') {
@@ -892,15 +891,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             } else if (files.size > 2000000) {
                 error += '<p>File ảnh không được lớn hơn 2MB</p>';
             }
-
             if (error == '') {
-
             } else {
                 $('#file').val('');
                 $('#error_gallery').html('<span class="text-danger">' + error + '</span>');
                 return false;
             }
-
         });
 
         $(document).on('blur', '.edit_gal_name', function() {
@@ -967,10 +963,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         });
     </script>
+
     <script type="text/javascript">
         function ChangeToSlug() {
             var slug;
-
             //Lấy text từ thẻ input title 
             slug = document.getElementById("slug").value;
             slug = slug.toLowerCase();
@@ -1107,6 +1103,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 }
             });
         }
+
         $(document).on('blur', '.fee_feeship_edit', function() {
 
             var feeship_id = $(this).data('feeship_id');
@@ -1162,6 +1159,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
         });
+
         $('.choose').on('change', function() {
             var action = $(this).attr('id');
             var ma_id = $(this).val();
@@ -1197,6 +1195,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         });
     </script>
 
+    <!-- ckeditor  -->
     <script type="text/javascript">
         CKEDITOR.replace('ckeditor');
         CKEDITOR.replace('ckeditor1', {
@@ -1226,6 +1225,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
     <script src="{{asset('public/backend/js/jquery.scrollTo.js')}}"></script>
+
     <!-- morris JavaScript -->
     <script>
         $(document).ready(function() {
@@ -1326,6 +1326,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         });
     </script>
+
     <!-- calendar -->
     <script type="text/javascript" src="{{asset('public/backend/js/monthly.js')}}"></script>
     <script type="text/javascript">
@@ -1357,7 +1358,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         });
     </script>
-    <!-- //calendar -->
 </body>
 
 </html>

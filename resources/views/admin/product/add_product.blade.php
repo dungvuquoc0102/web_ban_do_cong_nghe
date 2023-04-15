@@ -31,15 +31,15 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Giá bán</label>
-                            <input type="text" data-validation="length" data-validation-length="min5" data-validation-error-msg="Làm ơn điền số tiền" name="product_price" class="form-control price_format" id="" placeholder="Giá bán">
+                            <input type="text" data-validation="length" data-validation-length="min5" data-validation-error-msg="Giá trị phải ít nhất 1,000" name="product_price" class="form-control price_format" id="" placeholder="Giá bán">
                         </div>
                             <div class="form-group">
                             <label for="exampleInputEmail1">Giá gốc</label>
-                            <input type="text" data-validation="length" data-validation-length="min5" data-validation-error-msg="Làm ơn điền số tiền" name="price_cost" class="form-control price_format" id="" placeholder="Giá gốc">
+                            <input type="text" data-validation="length" data-validation-length="min5" data-validation-error-msg="Giá trị phải ít nhất 1,000" name="price_cost" class="form-control price_format" id="" placeholder="Giá gốc">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Ảnh bìa</label>
-                            <input require type="file" name="product_image" class="form-control" id="exampleInputEmail1">
+                            <input required type="file" name="product_image" class="form-control" id="exampleInputEmail1">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Tài liệu</label>
@@ -47,11 +47,11 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Mô tả sản phẩm</label>
-                            <textarea style="resize: none"  rows="8" class="form-control" name="product_desc" id="ckeditor1" placeholder="Mô tả sản phẩm"></textarea>
+                            <textarea required style="resize: none"  rows="8" class="form-control" name="product_desc" id="ckeditor1" placeholder="Mô tả sản phẩm"></textarea>
                         </div>
                             <div class="form-group">
                             <label for="exampleInputPassword1">Nội dung sản phẩm</label>
-                            <textarea style="resize: none" rows="8" class="form-control" name="product_content"  id="my-editor" placeholder="Nội dung sản phẩm"></textarea>
+                            <textarea required style="resize: none" rows="8" class="form-control" name="product_content"  id="my-editor" placeholder="Nội dung sản phẩm"></textarea>
                         </div>
                             <div class="form-group">
                             <label for="exampleInputPassword1">Danh mục sản phẩm</label>

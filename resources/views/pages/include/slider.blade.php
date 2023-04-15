@@ -8,31 +8,30 @@
                         <li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
                         <li data-target="#slider-carousel" data-slide-to="1"></li>
                         <li data-target="#slider-carousel" data-slide-to="2"></li>
+                        <li data-target="#slider-carousel" data-slide-to="3"></li>
                     </ol>
                     <style type="text/css">
                         img.img.img-responsive.img-slider {
                             height: 350px;
+                            width: 100%;
+                            object-fit: cover;
                         }
                     </style>
                     <div class="carousel-inner">
                         @php
-                        $i = 0;
+                            $i = 0;
                         @endphp
                         @foreach($slider as $key => $slide)
-                        @php
-                        $i++;
-                        @endphp
-                        <div class="item {{$i==1 ? 'active' : '' }}">
-                            <div class="col-sm-12">
-                                <img alt="{{$slide->slider_desc}}" src="{{asset('public/uploads/slider/'.$slide->slider_image)}}" height="200" width="90%" class="img img-responsive img-slider">
-
+                            @php
+                                $i++;
+                            @endphp
+                            <div class="item {{$i==1 ? 'active' : '' }}">
+                                <div class="col-sm-12">
+                                    <img alt="{{$slide->slider_desc}}" src="{{asset('public/uploads/slider/'.$slide->slider_image)}}" height="200" width="90%" class="img img-responsive img-slider">
+                                </div>
                             </div>
-                        </div>
                         @endforeach
-
-
                     </div>
-
                     <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
                         <i class="fa fa-angle-left"></i>
                     </a>

@@ -24,7 +24,6 @@ class HomeController extends Controller
     }
     public function load_more_product(Request $request)
     {
-
         $data = $request->all();
 
         if ($data['id'] > 0) {
@@ -116,13 +115,13 @@ class HomeController extends Controller
         }
         echo $output;
     }
+    
     public function index(Request $request)
     {
         //get icons social
         $icons = Icons::orderBy('id_icons', 'DESC')->get();
         //category post
         $category_post = CatePost::orderBy('cate_post_id', 'DESC')->get();
-
         //slide
         $slider = Slider::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
         //seo 
@@ -130,14 +129,12 @@ class HomeController extends Controller
         $meta_keywords = "thiet bi game,phu kien game,game phu kien,game giai tri";
         $meta_title = "Phụ kiện,máy chơi game chính hãng";
         $url_canonical = $request->url();
-        //--seo
+        //category product
+        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderby('category_parent', 'desc')->orderby('category_order', 'ASC')->get();
+        //brand
+        $brand_product = DB::table('tbl_brand')->where('brand_status', '1')->orderby('brand_id', 'desc')->get();
 
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderby('category_parent', 'desc')->orderby('category_order', 'ASC')->get();
-
-        $brand_product = DB::table('tbl_brand')->where('brand_status', '0')->orderby('brand_id', 'desc')->get();
-
-
-        $all_product = DB::table('tbl_product')->where('product_status', '0')->orderby(DB::raw('RAND()'))->paginate(6);
+        $all_product = DB::table('tbl_product')->where('product_status', '1')->orderby(DB::raw('RAND()'))->paginate(6);
 
         $cate_pro_tabs = CategoryProductModel::where('category_parent', 0)->orderBy('category_id', 'DESC')->get();
 
