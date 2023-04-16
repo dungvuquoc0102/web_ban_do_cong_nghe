@@ -380,8 +380,6 @@
         </footer>
         <!--/Footer-->
 
-
-
         <script src="{{asset('public/frontend/js/jquery.js')}}"></script>
         <script src="{{asset('public/frontend/js/bootstrap.min.js')}}"></script>
         <script src="{{asset('public/frontend/js/jquery.scrollUp.min.js')}}"></script>
@@ -398,16 +396,13 @@
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-
         <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-
 
         <!-- Messenger Plugin chat Code -->
         <div id="fb-root"></div>
 
         <!-- Your Plugin chat code -->
-        <div id="fb-customer-chat" class="fb-customerchat">
-        </div>
+        <div id="fb-customer-chat" class="fb-customerchat"></div>
 
         <script>
             var chatbox = document.getElementById('fb-customer-chat');
@@ -459,9 +454,11 @@
             }
         </script>
 
+        <!-- load more sản phẩm  -->
         <script type="text/javascript">
             load_more_product();
             cart_session();
+            htmlLoaded();
 
             function cart_session() {
                 $.ajax({
@@ -473,27 +470,18 @@
 
                 });
             }
-            htmlLoaded();
 
             function htmlLoaded() {
-
                 $(window).load(function() {
-
                     var id = [];
-
                     $(".cart_id").each(function() {
                         id.push($(this).val());
                         //alert(id);
-
                     });
-
                     for (var i = 0; i < id.length; i++) {
-
                         $('.home_cart_' + id[i]).hide();
                         $('.rm_home_cart_' + id[i]).show();
-
                     }
-
                 });
             }
 
@@ -501,47 +489,37 @@
                 $.ajax({
                     url: "{{url('/load-more-product')}}",
                     method: "POST",
-
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-
                     data: {
                         id: id
                     },
                     success: function(data) {
                         $('#load_more_button').remove();
-
                         $('#all_product').append(data);
-
                         var id = [];
-
                         $(".cart_id").each(function() {
                             id.push($(this).val());
                             //alert(id);
-
                         });
-
                         for (var i = 0; i < id.length; i++) {
 
                             $('.home_cart_' + id[i]).hide();
                             $('.rm_home_cart_' + id[i]).show();
 
                         }
-
-
                     }
-
                 });
             }
+
             $(document).on('click', '#load_more_button', function() {
                 var id = $(this).data('id');
                 $('#load_more_button').html('<b>Loading...</b>');
                 load_more_product(id);
-
-
             })
         </script>
+
         <script type="text/javascript">
             // When the user scrolls the page, execute myFunction
             window.onscroll = function() {
@@ -622,23 +600,32 @@
 
             });
         </script>
+        
         <!-- sản phẩm đã xem  -->
         <script type="text/javascript">
             function viewed() {
+                console.log("hello1");
                 if (localStorage.getItem('viewed') != null) {
                     var data = JSON.parse(localStorage.getItem('viewed'));
                     data.reverse();
-                    document.getElementById('row_viewed').style.overflow = 'scroll';
-                    document.getElementById('row_viewed').style.height = '500px';
+                    // document.getElementById('row_viewed').style.overflow = 'scroll';
+                    // document.getElementById('row_viewed').style.height = '500px';
                     for (i = 0; i < data.length; i++) {
+                        if(i>2) {
+                            break;
+                        }
                         var name = data[i].name;
                         var price = data[i].price;
                         var image = data[i].image;
                         var url = data[i].url;
-                        $('#row_viewed').append('<div class="row" style="margin:10px 0"><div class="col-md-4"><img width="100%" src="' + image + '"></div><div class="col-md-8 info_wishlist"><p>' + name + '</p><p style="color:#FE980F">' + price + '</p><a href="' + url + '">Xem ngay</a></div>');
+                        $('#row_viewed').append('<div class="row" style="padding: 10px 5px; margin: 0;"><div class="col-md-4"><img width="100%" src="' + image + '"></div><div class="col-md-8 info_wishlist"><p>' + name + '</p><p style="color:#FE980F">' + price + '</p><a href="' + url + '">Xem ngay</a></div>');
                     }
                 }
             }
+            viewed();
+        </script>
+        <!-- xem sản phẩm chi tiết và lưu vào localStorage dùng cho sản phẩm đã xem   -->
+        <script type="text/javascript">
             function product_viewed() {
                 var id_product = $('#product_viewed_id').val();
                 if (id_product != undefined) {
@@ -655,10 +642,12 @@
                         'image': image
                     }
 
-                    if (localStorage.getItem('viewed') == null) {
+                    if (!localStorage.getItem('viewed')) {
                         localStorage.setItem('viewed', '[]');
                     }
                     var old_data = JSON.parse(localStorage.getItem('viewed'));
+                    
+                    console.log(old_data);
                     var matches = $.grep(old_data, function(obj) {
                         return obj.id == id;
                     })
@@ -666,12 +655,14 @@
                         
                     } else {
                         old_data.push(newItem);
-                        $('#row_viewed').append('<div class="row" style="margin:10px 0"><div class="col-md-4"><img width="100%" src="' + newItem.image + '"></div><div class="col-md-8 info_wishlist"><p>' + newItem.name + '</p><p style="color:#FE980F">' + newItem.price + '</p><a href="' + newItem.url + '">Đặt hàng</a></div>');
+                        if(old_data.length > 3) {
+                            old_data.shift();
+                        }
+                        // $('#row_viewed').append('<div class="row" style="margin:10px 0"><div class="col-md-4"><img width="100%" src="' + newItem.image + '"></div><div class="col-md-8 info_wishlist"><p>' + newItem.name + '</p><p style="color:#FE980F">' + newItem.price + '</p><a href="' + newItem.url + '">Đặt hàng</a></div>');
                     }
                     localStorage.setItem('viewed', JSON.stringify(old_data));
                 }
             }
-            viewed();
             product_viewed();
         </script>
 
@@ -704,7 +695,6 @@
 
         <script type="text/javascript">
             $(document).ready(function() {
-
                 var cate_id = $('.tabs_pro').data('id');
                 var _token = $('input[name="_token"]').val();
                 //alert(cate_id);
@@ -717,13 +707,10 @@
                     },
                     success: function(data) {
                         $('#tabs_product').html(data);
-
                     }
-
                 });
 
                 $('.tabs_pro').click(function() {
-
                     var cate_id = $(this).data('id');
                     // alert(cate_id);
                     var _token = $('input[name="_token"]').val();
@@ -734,17 +721,11 @@
                             cate_id: cate_id,
                             _token: _token
                         },
-
                         success: function(data) {
                             $('#tabs_product').html(data);
                         }
-
                     });
-
                 });
-
-
-
             });
         </script>
 

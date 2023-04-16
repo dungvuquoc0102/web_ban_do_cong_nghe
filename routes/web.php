@@ -92,6 +92,8 @@ Route::get('/add-category-product', 'CategoryProduct@add_category_product');
 Route::get('/edit-category-product/{category_product_id}', 'CategoryProduct@edit_category_product');
 Route::get('/delete-category-product/{category_product_id}', 'CategoryProduct@delete_category_product');
 Route::get('/all-category-product', 'CategoryProduct@all_category_product');
+Route::post('/save-category-product', 'CategoryProduct@save_category_product');
+Route::post('/update-category-product/{category_product_id}', 'CategoryProduct@update_category_product');
 
 Route::post('/export-csv', 'CategoryProduct@export_csv');
 Route::post('/import-csv', 'CategoryProduct@import_csv');
@@ -101,8 +103,6 @@ Route::get('/unactive-category-product/{category_product_id}', 'CategoryProduct@
 Route::get('/active-category-product/{category_product_id}', 'CategoryProduct@active_category_product');
 
 Route::post('/product-tabs', 'CategoryProduct@product_tabs');
-Route::post('/save-category-product', 'CategoryProduct@save_category_product');
-Route::post('/update-category-product/{category_product_id}', 'CategoryProduct@update_category_product');
 
 //Brand
 Route::get('/add-brand-product', 'BrandProduct@add_brand_product');

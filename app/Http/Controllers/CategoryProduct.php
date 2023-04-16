@@ -224,69 +224,61 @@ class CategoryProduct extends Controller
         $product_count = $product->count();
 
         if ($product_count > 0) {
-
-            $output .= ' <div class="tab-content">
-        <div class="tab-pane fade active in" id="tshirt" >
-        ';
+            $output .=  
+            '<div class="tab-content">
+                <div class="tab-pane fade active in" id="tshirt">';
             foreach ($product as $key => $val) {
-                $output .= '
+                if($key > 3) {
+                    break;
+                }
+                $output .=  
+                '<div class="col-sm-3">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                            <div class="productinfo text-center">
+                
+                                <input type="hidden" value="' . $val->product_id . '" class="cart_product_id_' . $val->product_id . '">
 
-              <input type="hidden" value="' . $val->product_id . '" class="cart_product_id_' . $val->product_id . '">
+                                <input type="hidden" id="wishlist_productname' . $val->product_id . '" value="' . $val->product_name . '" class="cart_product_name_' . $val->product_id . '">
+                                
+                                <input type="hidden" value="' . $val->product_quantity . '" class="cart_product_quantity_' . $val->product_id . '">
+                                
+                                <input type="hidden" value="' . $val->product_image . '" class="cart_product_image_' . $val->product_id . '">
 
-                                            <input type="hidden" id="wishlist_productname' . $val->product_id . '" value="' . $val->product_name . '" class="cart_product_name_' . $val->product_id . '">
-                                          
-                                            <input type="hidden" value="' . $val->product_quantity . '" class="cart_product_quantity_' . $val->product_id . '">
-                                            
-                                            <input type="hidden" value="' . $val->product_image . '" class="cart_product_image_' . $val->product_id . '">
+                                <input type="hidden" id="wishlist_productprice' . $val->product_id . '" value="' . number_format($val->product_price, 0, ',', '.') . 'VNĐ">
 
-                                            <input type="hidden" id="wishlist_productprice' . $val->product_id . '" value="' . number_format($val->product_price, 0, ',', '.') . 'VNĐ">
+                                <input type="hidden" value="' . $val->product_price . '" class="cart_product_price_' . $val->product_id . '">
 
-                                            <input type="hidden" value="' . $val->product_price . '" class="cart_product_price_' . $val->product_id . '">
+                                <input type="hidden" value="1" class="cart_product_qty_' . $val->product_id . '">
 
-                                            <input type="hidden" value="1" class="cart_product_qty_' . $val->product_id . '">
+                                <a id="wishlist_producturl' . $val->product_id . '"  href="' . url('chi-tiet/' . $val->product_slug) . '">
+                                    <img src="' . url('public/uploads/product/' . $val->product_image) . '" alt="' . $val->product_name . '" />
+                                    <h2>₫' . number_format($val->product_price, 0, ',', '.') . '</h2>
+                                    <p>' . $val->product_name . '</p>
+                                </a>
 
-                                            <a id="wishlist_producturl' . $val->product_id . '"  href="' . url('chi-tiet/' . $val->product_slug) . '">
-
-
-
-            <a href="' . url('chi-tiet/' . $val->product_slug) . '"><div class="col-sm-3">
-            <div class="product-image-wrapper">
-            <div class="single-products">
-            <div class="productinfo text-center">
-            <img src="' . url('public/uploads/product/' . $val->product_image) . '" alt="' . $val->product_name . '" />
-            <h2>' . number_format($val->product_price, 0, ',', '.') . ' VNĐ</h2>
-            <p>' . $val->product_name . '</p>
-            </a>
-              
-               
-                <button class="btn btn-default" id="' . $val->product_id . '" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
-            </div>
-            
-            </div>
-            </div>
-            </div>';
+                                <button class="btn btn-default" id="' . $val->product_id . '" onclick="Addtocart(this.id);">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    Thêm giỏ hàng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
             }
-
-            $output .= '
-        </div>
-        </div>
-        ';
+            $output .=  
+                '</div>
+            </div>';
         } else {
-            $output .= ' <div class="tab-content">
-
-       <div class="tab-pane fade active in" id="tshirt" >
-
-       <div class="col-sm-12s">
-       <p style="color:red;text-align:center;">Hiện chưa có sản phẩm trong danh mục này</p>
-       </div>
-
-       </div>
-       </div>
-
-       ';
+            $output .= 
+            '<div class="tab-content">
+                <div class="tab-pane fade active in" id="tshirt" >
+                    <div class="col-sm-12s">
+                        <p style="color:red;text-align:center;">Hiện chưa có sản phẩm trong danh mục này</p>
+                    </div>
+                </div>
+            </div>';
         }
-
-
-        echo $output;
+        return $output;
     }
 }

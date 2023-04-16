@@ -15,14 +15,10 @@
     <!--category-tab-->
     <div class="col-sm-12">
       <ul class="nav nav-tabs">
-        @php
-        $i = 0;
-        @endphp
         @foreach($cate_pro_tabs as $key => $cat_tab)
-        @php
-        $i++;
-        @endphp
-        <li class="tabs_pro {{$i==1 ? 'active' : ''}}" data-id="{{$cat_tab->category_id}}"><a href="#tshirt" data-toggle="tab">{{$cat_tab->category_name}}</a></li>
+          <li class="tabs_pro {{$key==0 ? 'active' : ''}}" data-id="{{$cat_tab->category_id}}">
+            <a href="#tshirt" data-toggle="tab">{{$cat_tab->category_name}}</a>
+          </li>
         @endforeach
       </ul>
     </div>
