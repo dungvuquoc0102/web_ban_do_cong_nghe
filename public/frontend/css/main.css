@@ -16,8 +16,8 @@ ul li {
     list-style: none;
 }
 ul.nav.nav-pills li a {
-    padding: 5px;
-    font-size: 15px;
+    padding: 5px 20px;
+    font-size: 14px;
 }
 a:hover {
     outline: none;
@@ -662,16 +662,21 @@ ul.sub-menu {
 .category-products {
     border: 1px solid #f7f7f0;
     margin-bottom: 35px;
-    padding-bottom: 20px;
-    padding-top: 15px;
+    padding: 20px 0;
 }
+
+.brands_products {
+    margin-bottom: 20px;
+    padding: 20px 0;
+}
+
 .left-sidebar h2,
 .brands_products h2 {
     color: #fe980f;
     font-family: "Roboto", sans-serif;
     font-size: 18px;
     font-weight: 700;
-    margin: 0 auto 30px;
+    margin: 0 auto 20px;
     text-align: center;
     text-transform: uppercase;
     position: relative;

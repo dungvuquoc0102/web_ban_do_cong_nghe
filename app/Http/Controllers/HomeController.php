@@ -130,16 +130,16 @@ class HomeController extends Controller
         $meta_title = "Trang chủ - DTech";
         $url_canonical = $request->url();
         //category product
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderby('category_parent', 'desc')->orderby('category_order', 'ASC')->get();
+        $category = DB::table('tbl_category_product')->where('category_status', '1')->orderby('category_parent', 'desc')->orderby('category_order', 'ASC')->get();
         //brand
-        $brand_product = DB::table('tbl_brand')->where('brand_status', '1')->orderby('brand_id', 'desc')->get();
+        $brand = DB::table('tbl_brand')->where('brand_status', '1')->orderby('brand_id', 'desc')->get();
 
         $all_product = DB::table('tbl_product')->where('product_status', '1')->orderby(DB::raw('RAND()'))->paginate(6);
 
         $cate_pro_tabs = CategoryProductModel::where('category_parent', 0)->orderBy('category_id', 'DESC')->get();
 
-        return view('pages.home')->with('category', $cate_product)->with('brand', $brand_product)->with('all_product', $all_product)->with('meta_desc', $meta_desc)->with('meta_keywords', $meta_keywords)->with('meta_title', $meta_title)->with('url_canonical', $url_canonical)->with('slider', $slider)->with('category_post', $category_post)->with('cate_pro_tabs', $cate_pro_tabs)->with('icons', $icons); //1
-        // return view('pages.home')->with(compact('cate_product','brand_product','all_product')); //2
+        // return view('pages.home')->with('category', $cate_product)->with('brand', $brand_product)->with('all_product', $all_product)->with('meta_desc', $meta_desc)->with('meta_keywords', $meta_keywords)->with('meta_title', $meta_title)->with('url_canonical', $url_canonical)->with('slider', $slider)->with('category_post', $category_post)->with('cate_pro_tabs', $cate_pro_tabs)->with('icons', $icons); //1
+        return view('pages.home')->with(compact('category', 'brand', 'all_product', 'meta_desc', 'meta_keywords', 'meta_title', 'url_canonical', 'slider', 'category_post', 'cate_pro_tabs', 'icons'));
     }
     
     public function search(Request $request)

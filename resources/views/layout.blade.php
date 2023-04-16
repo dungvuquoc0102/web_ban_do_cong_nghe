@@ -622,7 +622,7 @@
 
             });
         </script>
-
+        <!-- sản phẩm đã xem  -->
         <script type="text/javascript">
             function viewed() {
                 if (localStorage.getItem('viewed') != null) {
@@ -630,25 +630,16 @@
                     data.reverse();
                     document.getElementById('row_viewed').style.overflow = 'scroll';
                     document.getElementById('row_viewed').style.height = '500px';
-
                     for (i = 0; i < data.length; i++) {
-
                         var name = data[i].name;
                         var price = data[i].price;
                         var image = data[i].image;
                         var url = data[i].url;
-
                         $('#row_viewed').append('<div class="row" style="margin:10px 0"><div class="col-md-4"><img width="100%" src="' + image + '"></div><div class="col-md-8 info_wishlist"><p>' + name + '</p><p style="color:#FE980F">' + price + '</p><a href="' + url + '">Xem ngay</a></div>');
                     }
-
                 }
-
             }
-            viewed();
-            product_viewed();
-
             function product_viewed() {
-
                 var id_product = $('#product_viewed_id').val();
                 if (id_product != undefined) {
                     var id = id_product;
@@ -672,15 +663,16 @@
                         return obj.id == id;
                     })
                     if (matches.length) {
-
+                        
                     } else {
                         old_data.push(newItem);
                         $('#row_viewed').append('<div class="row" style="margin:10px 0"><div class="col-md-4"><img width="100%" src="' + newItem.image + '"></div><div class="col-md-8 info_wishlist"><p>' + newItem.name + '</p><p style="color:#FE980F">' + newItem.price + '</p><a href="' + newItem.url + '">Đặt hàng</a></div>');
-
                     }
                     localStorage.setItem('viewed', JSON.stringify(old_data));
                 }
             }
+            viewed();
+            product_viewed();
         </script>
 
         <script type="text/javascript">
