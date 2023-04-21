@@ -246,6 +246,7 @@ class ProductController extends Controller
         Session()->put('message', 'Thêm sản phẩm thành công');
         return Redirect::to('all-product');
     }
+
     public function unactive_product($product_id)
     {
         $this->AuthLogin();
@@ -311,12 +312,25 @@ class ProductController extends Controller
             File::copy($path . $new_image, $path_gallery . $new_image);
             $data['product_image'] = $new_image;
 
+            //Update Gallery
+            $gallery = array();
+            $gallery['gallery_image'] = $new_image;
+            $gallery['gallery_name'] = $new_image;
+            // $gallery['product_id'] = $product->product_id;
+            Gallery::where('product_id', $product_id)->where('gallery_name', $product->product_image)->update($gallery);
+
+            //unlink old image
             if($product->product_image) {
                 unlink($path . $product->product_image);
+                unlink($path_gallery . $product->product_image);
             }
             // DB::table('tbl_product')->where('product_id', $product_id)->update($data);
             // Session()->put('message', 'Cập nhật sản phẩm thành công');
             // return Redirect::to('all-product');
+        } else {
+            if($product->product_image) {
+                $data['product_image'] = $product->product_image;
+            }
         }
         //Thêm document
         if ($get_document) {
@@ -329,14 +343,12 @@ class ProductController extends Controller
             if ($product->product_file) {
                 unlink($path_document . $product->product_file);
             }
+        } else {
+            if($product->product_file) {
+                $data['product_file'] = $product->product_file;
+            }
         }
-        //Update Gallery
-        $gallery = array();
-        $gallery['gallery_image'] = $new_image;
-        $gallery['gallery_name'] = $new_image;
-        // $gallery['product_id'] = $product->product_id;
-        Gallery::where('product_id', $product_id)->where('gallery_name', $product->product_image)->update($gallery);
-
+        
         DB::table('tbl_product')->where('product_id', $product_id)->update($data);
         Session()->put('message', 'Cập nhật sản phẩm thành công');
         return Redirect::to('all-product');

@@ -9,10 +9,9 @@
 @endsection
 
 @section('content')
+<!--product_tabs-->
 <div class="features_items">
-  <!--features_items-->
   <div class="category-tab">
-    <!--category-tab-->
     <div class="col-sm-12">
       <ul class="nav nav-tabs">
         @foreach($cate_pro_tabs as $key => $cat_tab)
@@ -28,7 +27,6 @@
   <div id="all_product"></div>
   <div id="cart_session"></div>
 </div>
-<!--features_items-->
 <style type="text/css">
   div#quick-cart {
     margin-top: 60px;

@@ -604,7 +604,6 @@
         <!-- sản phẩm đã xem  -->
         <script type="text/javascript">
             function viewed() {
-                console.log("hello1");
                 if (localStorage.getItem('viewed') != null) {
                     var data = JSON.parse(localStorage.getItem('viewed'));
                     data.reverse();
@@ -666,6 +665,7 @@
             product_viewed();
         </script>
 
+        <!-- Thêm vào yêu thích  -->
         <script type="text/javascript">
             function view() {
                 if (localStorage.getItem('data') != null) {
@@ -693,6 +693,7 @@
             view();
         </script>
 
+        <!-- xem nhanh các sản phẩm trong danh mục  -->
         <script type="text/javascript">
             $(document).ready(function() {
                 var cate_id = $('.tabs_pro').data('id');
@@ -829,6 +830,8 @@
                 });
             });
         </script>
+
+        <!-- xem nhanh sản phẩm  -->
         <script type="text/javascript">
             function XemNhanh(id) {
                 var product_id = id;
@@ -1172,6 +1175,7 @@
             });
         </script>
 
+        <!-- Thêm giỏ hàng  -->
         <script type="text/javascript">
             function show_quick_cart() {
                 $.ajax({
@@ -1181,7 +1185,70 @@
                         $('#show_quick_cart').html(data);
                         $('#quick-cart').modal();
                     }
+                });
+            }
 
+            function show_quick_cart_2() {
+                $.ajax({
+                    url: "{{url('/show_quick_cart_2')}}",
+                    method: 'GET',
+                    success: function(data) {
+                        var output = 
+                        '<form>' 
+                        + data['csrf'] 
+                        + '<table class="table table-condensed"><thead><tr class="cart_menu"><td class="image">Hình ảnh</td><td class="description">Tên sản phẩm</td><td class="description">Số lượng tồn</td><td class="price">Giá sản phẩm</td><td class="quantity">Số lượng</td><td class="total">Thành tiền</td><td></td></tr></thead><tbody>';
+                        if(data['cart']) {
+                            var total = 0;
+                            data['cart'].forEach(function(item, index, arr){
+                                var subtotal = item['product_price'] * item['product_qty'];
+                                total += subtotal;
+                                output += '<tr><td class=""><img src="' + data['url'] + 'public/uploads/product/' + item['product_image']) + '" width="20%" alt="' + item['product_name'] + '" />
+                                    </td>
+                                    <td class="cart_description">
+                                        <h4><a href=""></a></h4>
+                                        <p>' + item['product_name'] + '</p>
+                                    </td>
+                                    <td class="cart_description">
+                                        <h4><a href=""></a></h4>
+                                        <p>' + item['product_quantity'] + '</p>
+                                    </td>
+                                    <td class="cart_price">
+                                        <p>' + item['product_price'] + 'VNĐ</p>
+                                    </td>
+                                    <td class="cart_quantity">
+                                        <div class="cart_quantity_button">
+                                        <input class="cart_qty_update" type="number" data-session_id="' + item['session_id'] + '" min="1" value="' + item['product_qty'] + '" >
+                                        </div>
+                                    </td>
+                                    <td class="cart_total">
+                                        <p class="cart_total_price">
+                                            ' + item['product_price'] + 'VNĐ
+                                        </p>
+                                    </td>
+                                    <td class="cart_delete">
+                                        <a class="cart_quantity_delete" style="cursor:pointer" id="' + item['session_id'] + '" onclick="DeleteItemCart(this.id)">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>';
+                            })
+                            
+                            output += 
+                            '<tr>
+                                <td>
+                                    <a class="btn btn-default check_out" href="' + data['url'] +  'del-all-product' + '">Xóa tất cả</a>
+                                </td>
+                                <td>';
+                            if (data['customer_id']) {
+                                output += '<a class="btn btn-default check_out" href="' + data ['url'] + 'checkout' + '">Đặt hàng</a>';
+                            } else {
+                                output += '<a class="btn btn-default check_out" href="' + data ['url'] + 'dang-nhap' + '">Đăng nhập</a>';
+                            }
+                            output += '</td><td colspan="2"><li>Tổng tiền :<span>' + total + 'VNĐ</span></li></td></tr>';
+                        }
+                        $('#show_quick_cart').html(output);
+                        $('#quick-cart').modal();
+                    }
                 });
             }
 
@@ -1196,17 +1263,12 @@
                     },
 
                     success: function() {
-
                         $('.show_quick_cart_alert').append('<p class="text text-success">Xóa sản phẩm trong giỏ hàng thành công.</p>');
                         setTimeout(function() {
                             $('.show_quick_cart_alert').fadeOut(1000);
-
                         }, 1000);
-
-
                         show_quick_cart();
                     }
-
                 });
             }
 
@@ -1248,7 +1310,6 @@
                 if (parseInt(cart_product_qty) > parseInt(cart_product_quantity)) {
                     alert('Làm ơn đặt nhỏ hơn ' + cart_product_quantity);
                 } else {
-
                     $.ajax({
                         url: "{{url('/add-cart-ajax')}}",
                         method: 'POST',
@@ -1261,19 +1322,17 @@
                             _token: _token,
                             cart_product_quantity: cart_product_quantity
                         },
-
                         success: function() {
-                            show_quick_cart();
+                            show_quick_cart_2();
                         }
-
                     });
                 }
             }
         </script>
+
         <!--add to  cart quickview-->
         <script type="text/javascript">
             $(document).on('click', '.add-to-cart-quickview', function() {
-
                 var id = $(this).data('id_product');
                 var cart_product_id = $('.cart_product_id_' + id).val();
                 var cart_product_name = $('.cart_product_name_' + id).val();
@@ -1286,7 +1345,6 @@
                 if (parseInt(cart_product_qty) > parseInt(cart_product_quantity)) {
                     alert('Làm ơn đặt nhỏ hơn ' + cart_product_quantity);
                 } else {
-
                     $.ajax({
                         url: "{{url('/add-cart-ajax')}}",
                         method: 'POST',
@@ -1304,19 +1362,16 @@
                         },
                         success: function() {
                             $("#beforesend_quickview").html("<p class='text text-success'>Sản phẩm đã thêm vào giỏ hàng</p>");
-
-
                         }
 
                     });
                 }
-
-
             });
             $(document).on('click', '.redirect-cart', function() {
                 window.location.href = "{{url('/gio-hang')}}";
             });
         </script>
+        
         <script type="text/javascript">
             $(document).ready(function() {
                 $('.choose').on('change', function() {

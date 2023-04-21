@@ -20,7 +20,7 @@
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="exampleInputEmail1">Tên sản phẩm</label>
-                            <input type="text" name="product_name" class="form-control" onkeyup="ChangeToSlug();" id="slug" value="{{$pro->product_name}}">
+                            <input type="text"  data-validation="length" data-validation-length="min10" data-validation-error-msg="Làm ơn điền ít nhất 10 ký tự" name="product_name" class="form-control" onkeyup="ChangeToSlug();" id="slug" value="{{$pro->product_name}}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Số lượng sản phẩm</label>
@@ -32,7 +32,7 @@
                         </div>
                                 <div class="form-group">
                             <label for="exampleInputEmail1">Giá bán</label>
-                            <input type="text" value="{{$pro->product_price}}" name="product_price" class="form-control price_format" id="exampleInputEmail1" >
+                            <input type="text" data-validation="length" data-validation-length="min5" value="{{$pro->product_price}}" name="product_price" class="form-control price_format" id="exampleInputEmail1" >
                         </div>
                             <div class="form-group">
                             <label for="exampleInputEmail1">Giá gốc</label>

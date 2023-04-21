@@ -187,112 +187,109 @@ class CartController extends Controller
     }
     public function show_quick_cart()
     {
+        $temp = csrf_field();
         $output = '
     <form>
-    ' . csrf_field() . '
-
+    ' . $temp . '
     <table class="table table-condensed">
-                    <thead>
-                        <tr class="cart_menu">
-                            <td class="image">Hình ảnh</td>
-                            <td class="description">Tên sản phẩm</td>
-                            <td class="description">Số lượng tồn</td>
-                            <td class="price">Giá sản phẩm</td>
-                            <td class="quantity">Số lượng</td>
-                            <td class="total">Thành tiền</td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tbody>';
+        <thead>
+            <tr class="cart_menu">
+                <td class="image">Hình ảnh</td>
+                <td class="description">Tên sản phẩm</td>
+                <td class="description">Số lượng tồn</td>
+                <td class="price">Giá sản phẩm</td>
+                <td class="quantity">Số lượng</td>
+                <td class="total">Thành tiền</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>';
         if (Session()->get('cart') == true) {
             $total = 0;
-
             foreach (Session()->get('cart') as $key => $cart) {
-
-
                 $subtotal = $cart['product_price'] * $cart['product_qty'];
                 $total += $subtotal;
-
-
-                $output .= '<tr>
-                            <td class="">
-                                <img src="' . url('public/uploads/product/' . $cart['product_image']) . '" width="20%" alt="' . $cart['product_name'] . '" />
-                            </td>
-                            <td class="cart_description">
-                                <h4><a href=""></a></h4>
-                                <p>' . $cart['product_name'] . '</p>
-                            </td>
-                            <td class="cart_description">
-                                <h4><a href=""></a></h4>
-                                <p>' . $cart['product_quantity'] . '</p>
-                            </td>
-                            <td class="cart_price">
-                                <p>' . number_format($cart['product_price'], 0, ',', '.') . 'VNĐ</p>
-                            </td>
-                            <td class="cart_quantity">
-                                <div class="cart_quantity_button">
-                                
-                                <input class="cart_qty_update" type="number" data-session_id="' . $cart['session_id'] . '" min="1" value="' . $cart['product_qty'] . '" >
-                                
-                                    
-                                </div>
-                            </td>
-                            <td class="cart_total">
-                                <p class="cart_total_price">
-                                    ' . number_format($cart['product_price'], 0, ',', '.') . 'VNĐ
-                                    
-                                </p>
-                            </td>
-                            <td class="cart_delete">
-                                <a class="cart_quantity_delete" style="cursor:pointer" id="' . $cart['session_id'] . '" onclick="DeleteItemCart(this.id)">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>';
+                $output .= 
+                '<tr>
+                    <td class="">
+                        <img src="' . url('public/uploads/product/' . $cart['product_image']) . '" width="20%" alt="' . $cart['product_name'] . '" />
+                    </td>
+                    <td class="cart_description">
+                        <h4><a href=""></a></h4>
+                        <p>' . $cart['product_name'] . '</p>
+                    </td>
+                    <td class="cart_description">
+                        <h4><a href=""></a></h4>
+                        <p>' . $cart['product_quantity'] . '</p>
+                    </td>
+                    <td class="cart_price">
+                        <p>' . number_format($cart['product_price'], 0, ',', '.') . 'VNĐ</p>
+                    </td>
+                    <td class="cart_quantity">
+                        <div class="cart_quantity_button">
+                        <input class="cart_qty_update" type="number" data-session_id="' . $cart['session_id'] . '" min="1" value="' . $cart['product_qty'] . '" >
+                        </div>
+                    </td>
+                    <td class="cart_total">
+                        <p class="cart_total_price">
+                            ' . number_format($cart['product_price'], 0, ',', '.') . 'VNĐ
+                        </p>
+                    </td>
+                    <td class="cart_delete">
+                        <a class="cart_quantity_delete" style="cursor:pointer" id="' . $cart['session_id'] . '" onclick="DeleteItemCart(this.id)">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </td>
+                </tr>';
             }
-
-            $output .= '<tr>
-                          
-                            <td><a class="btn btn-default check_out" href="' . url('/del-all-product') . '">Xóa tất cả</a></td>
-                           
-
-                            <td>';
-
-
+            $output .= 
+            '<tr>
+                <td>
+                    <a class="btn btn-default check_out" href="' . url('/del-all-product') . '">Xóa tất cả</a>
+                </td>
+                <td>';
             if (Session()->get('customer_id')) {
                 $output .= '<a class="btn btn-default check_out" href="' . url('/checkout') . '">Đặt hàng</a>';
             } else {
-                $output .= '<a class="btn btn-default check_out" href="' . url('/dang-nhap') . '">Đặt hàng</a>';
+                $output .= '<a class="btn btn-default check_out" href="' . url('/dang-nhap') . '">Đăng nhập</a>';
             }
-
-            $output .= '</td>
-
-                            
-                            <td colspan="2">
-                            <li>Tổng tiền :<span>' . number_format($total, 0, ',', '.') . 'VNĐ</span></li>
-                           
-                            
-                            
-                        </td>
-                        </tr>';
+            $output .= 
+                '</td>
+                <td colspan="2">
+                    <li>Tổng tiền :<span>' . number_format($total, 0, ',', '.') . 'VNĐ</span></li>
+                </td>
+            </tr>';
         } else {
-
-            $output .= '<tr>
-                            <td colspan="5"><center>
-                                <p>Làm ơn thêm sản phẩm vào giỏ hàng</p>
-                            </center></td>
-                        </tr>';
+            $output .= 
+            '<tr>
+                <td colspan="5">
+                    <center>
+                        <p>Làm ơn thêm sản phẩm vào giỏ hàng</p>
+                    </center>
+                </td>
+            </tr>';
         }
-
-        $output .= '</tbody>
-
-                
-                  
-
-                </table></form>';
-
+        $output .= 
+            '</tbody>
+        </table>
+        </form>';
         echo $output;
     }
+
+    public function show_quick_cart_2() {
+        $data = [];
+        $crsf = crsf_field();
+        $url = url('/');
+        $customer_id = Session()->get('customer_id');
+        $data['crsf'] = $crsf;
+        $data['url'] = $url;
+        $data['customer_id'] = $customer_id;
+        if(Session()->get('cart')) {
+            $data['cart'] = Session()->get('cart');
+        }
+        return $data;
+    }
+
     public function delete_product($session_id)
     {
         $cart = Session()->get('cart');

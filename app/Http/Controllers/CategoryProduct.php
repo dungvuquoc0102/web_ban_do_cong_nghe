@@ -261,6 +261,9 @@ class CategoryProduct extends Controller
                                     <i class="fa fa-shopping-cart"></i>
                                     Thêm giỏ hàng
                                 </button>
+
+                                <button style="display:none" class="btn btn-danger rm_home_cart_' . $val->product_id . '" id="' . $val->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i> Bỏ đã thêm</button>
+
                             </div>
                         </div>
                     </div>

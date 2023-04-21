@@ -22,18 +22,20 @@ class HomeController extends Controller
     {
         return view('errors.404');
     }
+    
     public function load_more_product(Request $request)
     {
         $data = $request->all();
 
         if ($data['id'] > 0) {
-            $all_product = Product::where('product_status', '0')->where('product_id', '<', $data['id'])->orderby('product_id', 'DESC')->take(6)->get();
+            $all_product = Product::where('product_status', '1')->where('product_id', '<', $data['id'])->orderby('product_id', 'DESC')->take(6)->get();
         } else {
-            $all_product = Product::where('product_status', '0')->orderby('product_id', 'DESC')->take(6)->get();
+            $all_product = Product::where('product_status', '1')->orderby('product_id', 'DESC')->take(6)->get();
         }
 
         $output = '';
         if (!$all_product->isEmpty()) {
+            $last_id = 0;
             foreach ($all_product as $key => $pro) {
                 $last_id = $pro->product_id;
                 $output .= '<div class="col-sm-4">
@@ -41,7 +43,6 @@ class HomeController extends Controller
 
                 <div class="single-products">
                 <div class="productinfo text-center">
-
 
                 <input type="hidden" value="' . $pro->product_id . '" class="cart_product_id_' . $pro->product_id . '">
 
@@ -51,8 +52,7 @@ class HomeController extends Controller
 
                 <input type="hidden" value="' . $pro->product_image . '" class="cart_product_image_' . $pro->product_id . '">
 
-                <input type="hidden" id="wishlist_productprice' . $pro->product_id . '" value="' . number_format($pro->product_price, 0, ',', '.') . 'VNĐ">
-
+                <input type="hidden" id="wishlist_productprice' . $pro->product_id . '" value="₫' . number_format($pro->product_price, 0, ',', '.') . '">
 
                 <input type="hidden" value="' . $pro->product_price . '" class="cart_product_price_' . $pro->product_id . '">
 
@@ -60,19 +60,16 @@ class HomeController extends Controller
 
                 <a id="wishlist_producturl' . $pro->product_id . '"  href="' . url('chi-tiet/' . $pro->product_slug) . '">
 
-
                 <img id="wishlist_productimage' . $pro->product_id . '" src="' . url('public/uploads/product/' . $pro->product_image) . '" alt="' . $pro->product_name . '" />
 
-                <h2>' . number_format($pro->product_price, 0, ',', '.') . 'VNĐ</h2>
+                <h2>₫' . number_format($pro->product_price, 0, ',', '.') . '</h2>
                 <p>' . $pro->product_name . '</p>
 
                 </a>
 
+                <button class="btn btn-default home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i> Thêm giỏ hàng</button>
 
-                <button class="btn btn-default home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
-
-                <button style="display:none" class="btn btn-danger rm_home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i>Bỏ đã thêm</button>
-
+                <button style="display:none" class="btn btn-danger rm_home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i> Bỏ đã thêm</button>
 
                 <input type="button" data-toggle="modal" data-target="#xemnhanh" onclick="XemNhanh(this.id);"  value="Xem nhanh"  class="btn btn-default" id="' . $pro->product_id . '" name="add-to-cart">
 
@@ -82,7 +79,6 @@ class HomeController extends Controller
 
                 <div class="choose">
                 <ul class="nav nav-pills nav-justified">
-
 
                 <li>  
 

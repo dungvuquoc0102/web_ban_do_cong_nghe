@@ -28,6 +28,7 @@ Route::get('/', 'HomeController@index');
 Route::post('/load-more-product', 'HomeController@load_more_product');
 
 Route::get('/show_quick_cart', 'CartController@show_quick_cart');
+Route::get('/show_quick_cart_2', 'CartController@show_quick_cart_2');
 Route::get('/trang-chu', 'HomeController@index');
 Route::get('/404', 'HomeController@error_page');
 Route::post('/tim-kiem', 'HomeController@search');
@@ -94,13 +95,12 @@ Route::get('/delete-category-product/{category_product_id}', 'CategoryProduct@de
 Route::get('/all-category-product', 'CategoryProduct@all_category_product');
 Route::post('/save-category-product', 'CategoryProduct@save_category_product');
 Route::post('/update-category-product/{category_product_id}', 'CategoryProduct@update_category_product');
+Route::get('/unactive-category-product/{category_product_id}', 'CategoryProduct@unactive_category_product');
+Route::get('/active-category-product/{category_product_id}', 'CategoryProduct@active_category_product');
 
 Route::post('/export-csv', 'CategoryProduct@export_csv');
 Route::post('/import-csv', 'CategoryProduct@import_csv');
 Route::post('/arrange-category', 'CategoryProduct@arrange_category');
-
-Route::get('/unactive-category-product/{category_product_id}', 'CategoryProduct@unactive_category_product');
-Route::get('/active-category-product/{category_product_id}', 'CategoryProduct@active_category_product');
 
 Route::post('/product-tabs', 'CategoryProduct@product_tabs');
 
