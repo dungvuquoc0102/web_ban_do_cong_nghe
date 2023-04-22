@@ -1193,59 +1193,24 @@
                     url: "{{url('/show_quick_cart_2')}}",
                     method: 'GET',
                     success: function(data) {
-                        var output = 
-                        '<form>' 
-                        + data['csrf'] 
-                        + '<table class="table table-condensed"><thead><tr class="cart_menu"><td class="image">Hình ảnh</td><td class="description">Tên sản phẩm</td><td class="description">Số lượng tồn</td><td class="price">Giá sản phẩm</td><td class="quantity">Số lượng</td><td class="total">Thành tiền</td><td></td></tr></thead><tbody>';
+                        console.log(data);
+                        var output = '<form>' + data['csrf'] + '<table class="table table-condensed"><thead><tr class="cart_menu"><td class="image">Hình ảnh</td><td class="description">Tên sản phẩm</td><td class="description">Số lượng tồn</td><td class="price">Giá sản phẩm</td><td class="quantity">Số lượng</td><td class="total">Thành tiền</td><td></td></tr></thead><tbody>';
                         if(data['cart']) {
                             var total = 0;
                             data['cart'].forEach(function(item, index, arr){
                                 var subtotal = item['product_price'] * item['product_qty'];
                                 total += subtotal;
-                                output += '<tr><td class=""><img src="' + data['url'] + 'public/uploads/product/' + item['product_image']) + '" width="20%" alt="' + item['product_name'] + '" />
-                                    </td>
-                                    <td class="cart_description">
-                                        <h4><a href=""></a></h4>
-                                        <p>' + item['product_name'] + '</p>
-                                    </td>
-                                    <td class="cart_description">
-                                        <h4><a href=""></a></h4>
-                                        <p>' + item['product_quantity'] + '</p>
-                                    </td>
-                                    <td class="cart_price">
-                                        <p>' + item['product_price'] + 'VNĐ</p>
-                                    </td>
-                                    <td class="cart_quantity">
-                                        <div class="cart_quantity_button">
-                                        <input class="cart_qty_update" type="number" data-session_id="' + item['session_id'] + '" min="1" value="' + item['product_qty'] + '" >
-                                        </div>
-                                    </td>
-                                    <td class="cart_total">
-                                        <p class="cart_total_price">
-                                            ' + item['product_price'] + 'VNĐ
-                                        </p>
-                                    </td>
-                                    <td class="cart_delete">
-                                        <a class="cart_quantity_delete" style="cursor:pointer" id="' + item['session_id'] + '" onclick="DeleteItemCart(this.id)">
-                                            <i class="fa fa-times"></i>
-                                        </a>
-                                    </td>
-                                </tr>';
+                                output += '<tr><td class=""><img src="' + data['url'] + '/public/uploads/product/' + item['product_image'] + '" width="20%" alt="' + item['product_name'] + '" /></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_name'] + '</p></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_quantity'] + '</p></td><td class="cart_price"><p>' + item['product_price'] + 'VNĐ</p></td><td class="cart_quantity"><div class="cart_quantity_button"><input class="cart_qty_update" type="number" data-session_id="' + item['session_id'] + '" min="1" value="' + item['product_qty'] + '" ></div></td><td class="cart_total"><p class="cart_total_price">' + item['product_price'] + 'VNĐ</p></td><td class="cart_delete"><a class="cart_quantity_delete" style="cursor:pointer" id="' + item['session_id'] + '" onclick="DeleteItemCart(this.id)"><i class="fa fa-times"></i></a></td></tr>';
                             })
-                            
-                            output += 
-                            '<tr>
-                                <td>
-                                    <a class="btn btn-default check_out" href="' + data['url'] +  'del-all-product' + '">Xóa tất cả</a>
-                                </td>
-                                <td>';
-                            if (data['customer_id']) {
-                                output += '<a class="btn btn-default check_out" href="' + data ['url'] + 'checkout' + '">Đặt hàng</a>';
-                            } else {
-                                output += '<a class="btn btn-default check_out" href="' + data ['url'] + 'dang-nhap' + '">Đăng nhập</a>';
-                            }
-                            output += '</td><td colspan="2"><li>Tổng tiền :<span>' + total + 'VNĐ</span></li></td></tr>';
                         }
+                        output += 
+                        '<tr><td><a class="btn btn-default check_out" href="' + data['url'] +  '/del-all-product' + '">Xóa tất cả</a></td><td>';
+                        if (data['customer_id']) {
+                            output += '<a class="btn btn-default check_out" href="' + data['url'] + '/checkout' + '">Đặt hàng</a>';
+                        } else {
+                            output += '<a class="btn btn-default check_out" href="' + data['url'] + '/dang-nhap' + '">Đăng nhập</a>';
+                        }
+                        output += '</td><td colspan="2"><li>Tổng tiền :<span>' + total + 'VNĐ</span></li></td></tr>';
                         $('#show_quick_cart').html(output);
                         $('#quick-cart').modal();
                     }

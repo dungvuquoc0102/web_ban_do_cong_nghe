@@ -185,6 +185,7 @@ class CartController extends Controller
 
         Session()->save();
     }
+
     public function show_quick_cart()
     {
         $temp = csrf_field();
@@ -277,16 +278,30 @@ class CartController extends Controller
     }
 
     public function show_quick_cart_2() {
-        $data = [];
-        $crsf = crsf_field();
+        $data1 = array();
+        $data1['name'] =  'bug 1';
+        DB::table('tbl_bug')->insert($data1);
+
+        $data = array();
+        $csrf = csrf_field();
+
+        $datan = array();
+        $datan['name'] =  $csrf;
+        DB::table('tbl_bug')->insert($datan);
+
         $url = url('/');
         $customer_id = Session()->get('customer_id');
-        $data['crsf'] = $crsf;
+        $data['csrf'] = (string)$csrf;  
         $data['url'] = $url;
         $data['customer_id'] = $customer_id;
         if(Session()->get('cart')) {
             $data['cart'] = Session()->get('cart');
         }
+
+        $data2 = array();
+        $data2['name'] =  'bug 2';
+        DB::table('tbl_bug')->insert($data2);
+
         return $data;
     }
 
