@@ -36,6 +36,7 @@ class HomeController extends Controller
         $output = '';
         if (!$all_product->isEmpty()) {
             $last_id = 0;
+            $cart = Session()->get('cart');
             foreach ($all_product as $key => $pro) {
                 $last_id = $pro->product_id;
                 $output .= '<div class="col-sm-4">
@@ -65,13 +66,30 @@ class HomeController extends Controller
                 <h2>₫' . number_format($pro->product_price, 0, ',', '.') . '</h2>
                 <p>' . $pro->product_name . '</p>
 
-                </a>
+                </a>';
+                $temp = 0;
+                if($cart){
+                    foreach($cart as $key_cart => $val_cart) {
+                        if($val_cart['product_id'] == $pro->product_id){
+                            $output .= '<button style="display:none" class="btn btn-default home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i> Thêm giỏ hàng</button><button  class="btn btn-danger rm_home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i> Bỏ đã thêm</button>';
+                            $temp = 1;
+                        }
+                    }
+                    if(!$temp) {
+                        
+                            $output .= '<button  class="btn btn-default home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i> Thêm giỏ hàng</button>
+                            <button style="display:none" class="btn btn-danger rm_home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i> Bỏ đã thêm</button>';
+                        
+                    }
+                } else {
+                    $output .=
+                    '<button class="btn btn-default home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i> Thêm giỏ hàng</button>
 
-                <button class="btn btn-default home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i> Thêm giỏ hàng</button>
+                    <button style="display:none" class="btn btn-danger rm_home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i> Bỏ đã thêm</button>';
+                }
 
-                <button style="display:none" class="btn btn-danger rm_home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i> Bỏ đã thêm</button>
-
-                <input type="button" data-toggle="modal" data-target="#xemnhanh" onclick="XemNhanh(this.id);"  value="Xem nhanh"  class="btn btn-default" id="' . $pro->product_id . '" name="add-to-cart">
+                $output .= '<button data-toggle="modal" data-target="#xemnhanh" onclick="XemNhanh(this.id);" class="btn btn-default" id="' . $pro->product_id . '" name="add-to-cart"><i class="fa fa-eye"></i></button>
+                <!-- <input type="button" data-toggle="modal" data-target="#xemnhanh" onclick="XemNhanh(this.id);"  value="Xem nhanh"  class="btn btn-default" id="' . $pro->product_id . '" name="add-to-cart"> -->
 
                 </div>
 
@@ -166,11 +184,17 @@ class HomeController extends Controller
             $product = Product::where('product_status', 0)->where('product_name', 'LIKE', '%' . $data['query'] . '%')->get();
 
             $output = '
-            <ul class="dropdown-menu" style="display:block; position:relative">';
+            <ul class="dropdown-menu" style="display: block;">';
 
             foreach ($product as $key => $val) {
                 $output .= '
-             <li class="li_search_ajax"><a href="#">' . $val->product_name . '</a></li>
+             <li class="li_search_ajax"><a href="#" style="word-wrap: break-word;
+             white-space: normal;
+             overflow: hidden;
+             display: -webkit-box;
+             text-overflow: ellipsis;
+             -webkit-box-orient: vertical;
+             -webkit-line-clamp: 1;">' . $val->product_name . '</a></li>
              ';
             }
 

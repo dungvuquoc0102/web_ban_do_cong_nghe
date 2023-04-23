@@ -211,6 +211,10 @@ a#scrollUp i {
     padding-right: 0;
 }
 
+.giohang-hover ul.hover-cart li:last-child {
+    padding-right: 10px;
+}
+
 .shop-menu ul li a {
     color: #696763;
     font-family: "Roboto", sans-serif;
@@ -2492,6 +2496,19 @@ span.badges.badges_menu {
     background: bisque;
     padding: 0;
 }
+
+.giohang-hover .hover-cart {
+    display: block;
+}
+.giohang-hover .hover-cart {
+    display: inline-grid;
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    background: bisque;
+    padding: 0;
+}
+
 li.cart-hover:hover .hover-cart {
     display: inherit;
 }

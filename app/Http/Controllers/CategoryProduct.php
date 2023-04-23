@@ -227,6 +227,8 @@ class CategoryProduct extends Controller
             $output .=  
             '<div class="tab-content">
                 <div class="tab-pane fade active in" id="tshirt">';
+            $cart = Session()->get('cart');
+            
             foreach ($product as $key => $val) {
                 if($key > 3) {
                     break;
@@ -255,16 +257,39 @@ class CategoryProduct extends Controller
                                     <img src="' . url('public/uploads/product/' . $val->product_image) . '" alt="' . $val->product_name . '" />
                                     <h2>₫' . number_format($val->product_price, 0, ',', '.') . '</h2>
                                     <p>' . $val->product_name . '</p>
-                                </a>
+                                </a>';
 
-                                <button class="btn btn-default" id="' . $val->product_id . '" onclick="Addtocart(this.id);">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    Thêm giỏ hàng
-                                </button>
-
-                                <button style="display:none" class="btn btn-danger rm_home_cart_' . $val->product_id . '" id="' . $val->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i> Bỏ đã thêm</button>
-
-                            </div>
+                                if($cart){
+                                    $temp = 0;
+                                    foreach($cart as $key_cart => $val_cart) {
+                                        if($val_cart['product_id'] == $val->product_id){
+                                            $output .= '<button style="display:none" class="btn btn-default home_cart_'. $val->product_id . '"' . ' id="' . $val->product_id . '" onclick="Addtocart(this.id);">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            Thêm giỏ hàng
+                                        </button>
+        
+                                        <button  class="btn btn-danger rm_home_cart_' . $val->product_id . '" id="' . $val->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i> Bỏ đã thêm</button>
+                                        ';
+                                        $temp = 1;
+                                        }
+                                    }
+                                    if(!$temp) {
+                                        
+                                            $output .= '<button class="btn btn-default home_cart_'. $val->product_id . '"' . ' id="' . $val->product_id . '" onclick="Addtocart(this.id);">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            Thêm giỏ hàng
+                                        </button>
+        
+                                        <button style="display:none" class="btn btn-danger rm_home_cart_' . $val->product_id . '" id="' . $val->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i> Bỏ đã thêm</button>
+                                        ';
+                                    }
+                                } else {
+                                    $output .=
+                                    '<button class="btn btn-default home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i> Thêm giỏ hàng</button>
+                
+                                    <button style="display:none" class="btn btn-danger rm_home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i> Bỏ đã thêm</button>';
+                                }
+                            $output .= '</div>
                         </div>
                     </div>
                 </div>';

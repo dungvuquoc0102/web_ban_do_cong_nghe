@@ -115,7 +115,10 @@
                                     ?>
 
 
-                                    <li class="cart-hover"><a href="{{url('gio-hang')}}"><i class="fa fa-shopping-cart"></i>
+                                    <li class="cart-hover">
+                                        <a href="{{url('gio-hang')}}">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            
                                             Giỏ hàng
 
                                             <span class="show-cart"></span>
@@ -125,8 +128,6 @@
                                             <span class="giohang-hover">
 
                                             </span>
-
-
                                         </a>
 
                                     </li>
@@ -217,10 +218,25 @@
                                         </ul>
                                     </li>
 
-                                    <li><a href="{{URL::to('/gio-hang')}}">{{__('lang.cart')}}
+                                    <li class="cart-hover">
+                                        <a href="{{url('gio-hang')}}">
+                                            
+                                            {{__('lang.cart')}}
+
+                                            <span class="show-cart"></span>
+
+                                            <div class="clearfix"></div>
+
+                                            <span class="giohang-hover">
+
+                                            </span>
+                                        </a>
+
+                                    </li>
+                                    <!-- <li><a href="{{URL::to('/gio-hang')}}">{{__('lang.cart')}}
                                             <span class="show-cart"></span>
                                         </a>
-                                    </li>
+                                    </li> -->
                                     <li><a href="{{URL::to('/video-shop')}}">{{__('lang.video')}}</a></li>
                                     <li><a href="{{URL::to('/lien-he')}}">{{__('lang.contact')}}</a></li>
                                 </ul>
@@ -229,10 +245,11 @@
                         <div class="col-sm-5">
                             <form action="{{URL::to('/tim-kiem')}}" autocomplete="off" method="POST">
                                 {{csrf_field()}}
-                                <div class="search_box" style="display: flex; justify-content: flex-end;">
-
-                                    <input type="text" style="width: 60%;margin-right: 5px;color:#FFF" name="keywords_submit" id="keywords" placeholder="Tìm kiếm sản phẩm" />
-                                    <div id="search_ajax"></div>
+                                <div class="search_box" style="display: flex; justify-content: space-between; position: relative;">
+                                    <div style="width: 60%;  margin-right: 5px;">
+                                        <input type="text" style="width: 100%; color: #FFF;" name="keywords_submit" id="keywords" placeholder="Tìm kiếm sản phẩm" />
+                                        <div id="search_ajax"></div>
+                                    </div>
                                     <input type="submit" style="margin-top:0;color:#666" name="search_items" class="btn btn-primary btn-sm" value="Tìm kiếm">
 
                                 </div>
@@ -646,7 +663,6 @@
                     }
                     var old_data = JSON.parse(localStorage.getItem('viewed'));
                     
-                    console.log(old_data);
                     var matches = $.grep(old_data, function(obj) {
                         return obj.id == id;
                     })
@@ -1092,10 +1108,9 @@
 
                 });
             }
-
+            
+            // dungvq: xóa sản phẩm trong giỏ hàng 
             function Deletecart(id) {
-                var id = id;
-                // alert(id);
                 $.ajax({
                     url: "{{url('/remove-item')}}",
                     method: "GET",
@@ -1103,10 +1118,17 @@
                         id: id
                     },
                     success: function(data) {
-                        alert('Xóa sản phẩm trong giỏ hàng thành công');
+                        var home_cart = $('.home_cart_' + id);
+                        for(var i = 0; i < home_cart.length; i++) {
+                            home_cart[i].style.display = 'inline';
+                        }
 
-                        document.getElementsByClassName("home_cart_" + id)[0].style.display = "inline";
-                        document.getElementsByClassName("rm_home_cart_" + id)[0].style.display = "none";
+                        var rm_home_cart = $('.rm_home_cart_' + id);
+                        for(var i = 0; i < rm_home_cart.length; i++) {
+                            rm_home_cart[i].style.display = 'none';
+                        }
+                        // document.getElementsByClassName("home_cart_" + id)[0].style.display = "inline";
+                        // document.getElementsByClassName("rm_home_cart_" + id)[0].style.display = "none";
 
                         hover_cart();
                         show_cart();
@@ -1193,7 +1215,6 @@
                     url: "{{url('/show_quick_cart_2')}}",
                     method: 'GET',
                     success: function(data) {
-                        console.log(data);
                         var output = '<form>' + data['csrf'] + '<table class="table table-condensed"><thead><tr class="cart_menu"><td class="image">Hình ảnh</td><td class="description">Tên sản phẩm</td><td class="description">Số lượng tồn</td><td class="price">Giá sản phẩm</td><td class="quantity">Số lượng</td><td class="total">Thành tiền</td><td></td></tr></thead><tbody>';
                         if(data['cart']) {
                             var total = 0;
@@ -1201,7 +1222,7 @@
                                 var subtotal = item['product_price'] * item['product_qty'];
                                 total += subtotal;
                                 output += '<tr><td class=""><img src="' + data['url'] + '/public/uploads/product/' + item['product_image'] + '" width="20%" alt="' + item['product_name'] + '" /></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_name'] + '</p></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_quantity'] + '</p></td><td class="cart_price"><p>' + item['product_price'] + 'VNĐ</p></td><td class="cart_quantity"><div class="cart_quantity_button"><input class="cart_qty_update" type="number" data-session_id="' + item['session_id'] + '" min="1" value="' + item['product_qty'] + '" ></div></td><td class="cart_total"><p class="cart_total_price">' + item['product_price'] + 'VNĐ</p></td><td class="cart_delete"><a class="cart_quantity_delete" style="cursor:pointer" id="' + item['session_id'] + '" onclick="DeleteItemCart(this.id)"><i class="fa fa-times"></i></a></td></tr>';
-                            })
+                            });
                         }
                         output += 
                         '<tr><td><a class="btn btn-default check_out" href="' + data['url'] +  '/del-all-product' + '">Xóa tất cả</a></td><td>';
@@ -1211,6 +1232,7 @@
                             output += '<a class="btn btn-default check_out" href="' + data['url'] + '/dang-nhap' + '">Đăng nhập</a>';
                         }
                         output += '</td><td colspan="2"><li>Tổng tiền :<span>' + total + 'VNĐ</span></li></td></tr>';
+
                         $('#show_quick_cart').html(output);
                         $('#quick-cart').modal();
                     }
@@ -1260,7 +1282,7 @@
 
                 });
             })
-
+            // thêm vào giỏ hàng 
             function Addtocart($product_id) {
                 var id = $product_id;
                 // alert(id);
@@ -1288,6 +1310,19 @@
                             cart_product_quantity: cart_product_quantity
                         },
                         success: function() {
+                            
+                            var home_cart = $('.home_cart_' + id);
+                            for(var i = 0; i < home_cart.length; i++) {
+                                home_cart[i].style.display = 'none';
+                            }
+
+                            var rm_home_cart = $('.rm_home_cart_' + id);
+                            for(var i = 0; i < rm_home_cart.length; i++) {
+                                rm_home_cart[i].style.display = 'inline';
+                            }
+                            hover_cart();
+                            show_cart();
+                            cart_session();
                             show_quick_cart_2();
                         }
                     });

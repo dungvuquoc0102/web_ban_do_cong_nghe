@@ -20,7 +20,9 @@ class CartController extends Controller
     {
         $cart = count(Session()->get('cart'));
         $output = '';
-        $output .= '<span class="badges">' . $cart . '</span>';
+        if($cart) {
+            $output .= '<span class="badges">' . $cart . '</span>';
+        }
         echo $output;
     }
     public function hover_cart()
@@ -32,17 +34,22 @@ class CartController extends Controller
 
             $output .= '<ul class="hover-cart">';
             foreach (Session()->get('cart') as $key => $value) {
-                $output .= '<li style="width: 200px"><a href="#">
-                                            <img src="' . asset('public/uploads/product/' . $value['product_image']) . '">
-                                            <p>' . $value['product_name'] . '</p>
-                                            <p>' . number_format($value['product_price'], 0, ',', '.') . 'vnđ</p>
-                                            <p>Số lượng: ' . $value['product_qty'] . '</p>
-                                        </a>
-                                        <p><a style="text-align:center;font-size:15px" class="delele-hover-cart" href="' . url('/del-product/' . $value['session_id']) . '">
-                                            <i class="fa fa-times"></i>
-                                        </a></p>
-
-                                        </li>';
+                $output .= 
+                '<li style="width: 300px; display: flex; justify-content: space-between;">
+                <a href="#" style="display: flex;">
+                    <img style="width: 40px; height: 40px; object-fit: cover;" src="' . asset('public/uploads/product/' . $value['product_image']) . '">
+                    <div style="padding: 0 10px;">
+                        <p style="word-wrap: break-word;white-space: normal;overflow: hidden;display: -webkit-box;text-overflow: ellipsis;-webkit-box-orient: vertical;-webkit-line-clamp: 1;">' . $value['product_name'] . '</p>
+                        <p>' . number_format($value['product_price'], 0, ',', '.') . 'vnđ</p>
+                        <p>Số lượng: ' . $value['product_qty'] . '</p>
+                    </div>
+                    </a>
+                <p style="display: flex; align-items: center;">
+                    <a style="text-align:center;font-size:15px" class="delele-hover-cart" href="' . url('/del-product/' . $value['session_id']) . '">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </p>
+                </li>';
             }
             $output .= '</ul>';
         }
