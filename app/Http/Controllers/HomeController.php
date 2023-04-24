@@ -100,7 +100,7 @@ class HomeController extends Controller
 
                 <li>  
 
-                <i class="fa fa-plus-square"></i>
+                <i class="fa fa-heart"></i>
 
                 <button class="button_wishlist" id="' . $pro->product_id . '" onclick="add_wistlist(this.id);"><span>Yêu thích</span></button>
 
@@ -180,24 +180,29 @@ class HomeController extends Controller
         $data = $request->all();
 
         if ($data['query']) {
-
-            $product = Product::where('product_status', 0)->where('product_name', 'LIKE', '%' . $data['query'] . '%')->get();
+            $product = Product::where('product_status', 1)->where('product_name', 'LIKE', '%' . $data['query'] . '%')->orderby('product_id', 'desc')->take(10)->get();
 
             $output = '
             <ul class="dropdown-menu" style="display: block;">';
+            $temp = 0;
+                foreach ($product as $key => $val) {
+                    $output .= '
+                 <li class="li_search_ajax"><a href="#" style="word-wrap: break-word;
+                 white-space: normal;
+                 overflow: hidden;
+                 display: -webkit-box;
+                 text-overflow: ellipsis;
+                 -webkit-box-orient: vertical;
+                 -webkit-line-clamp: 1;
+                 padding: 0px 20px;">' . $val->product_name . '</a></li>
+                 ';
+                 $temp++;
+                }
+                if($temp){
 
-            foreach ($product as $key => $val) {
-                $output .= '
-             <li class="li_search_ajax"><a href="#" style="word-wrap: break-word;
-             white-space: normal;
-             overflow: hidden;
-             display: -webkit-box;
-             text-overflow: ellipsis;
-             -webkit-box-orient: vertical;
-             -webkit-line-clamp: 1;">' . $val->product_name . '</a></li>
-             ';
-            }
-
+                } else {
+                    $output .= '<li style="padding: 0px 20px; color:">Không có kết quả phù hợp.</li>';
+                }
             $output .= '</ul>';
             echo $output;
         }

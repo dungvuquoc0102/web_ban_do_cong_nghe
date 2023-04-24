@@ -154,11 +154,13 @@
 
     .mainmenu {
         width: 100%;
+        position: absolute;
+        width: 300px;
     }
 
     .mainmenu ul li {
         background: rgba(0, 0, 0, 0.5);
-        padding-top: 15px;
+        /* padding-top: 15px; */
         padding-bottom: 0;
     }
 

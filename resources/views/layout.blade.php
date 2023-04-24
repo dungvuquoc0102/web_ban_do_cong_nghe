@@ -84,7 +84,9 @@
                         <div class="col-sm-4">
                             <div class="logo pull-left">
                                 <a href="{{URL::to('/trang-chu')}}">
-                                    <img style="height: 30px" src="{{('public/uploads/contact/DTech_logo98.png')}}" alt="" />
+                                    @foreach($contact_footer as $key => $logo)
+                                    <img style="height: 30px" src="{{('public/uploads/contact/' . $logo->info_logo)}}" alt="" />
+                                    @endforeach
                                 </a>
                             </div>
                             <div class="btn-group pull-right">
@@ -115,7 +117,7 @@
                                     ?>
 
 
-                                    <li class="cart-hover">
+                                    <!-- <li class="cart-hover">
                                         <a href="{{url('gio-hang')}}">
                                             <i class="fa fa-shopping-cart"></i>
                                             
@@ -130,7 +132,7 @@
                                             </span>
                                         </a>
 
-                                    </li>
+                                    </li> -->
 
                                     @php
                                     $customer_id = Session()->get('customer_id');
@@ -283,7 +285,7 @@
                             text-align: center;
                             font-size: 20px;
                             text-transform: uppercase;
-                            margin: 20px;
+                            margin: 70px 0px 20px;
                             font-weight: bold;
                         }
 
@@ -308,7 +310,7 @@
                     </style>
                     <div class="col-md-12">
                         <h3 class="doitac">Đối tác của chúng tôi</h3>
-                        <div class="owl-carousel owl-theme">
+                        <div class="owl-carousel owl-theme" style="padding: 20px 0px 50px;">
                             @foreach($icons_doitac as $key => $doitac)
                             <div class="item" style="padding-left:0 !important; ">
                                 <a target="_blank" href="{{$doitac->link}}">
@@ -326,7 +328,7 @@
 
         <footer id="footer">
             <!--Footer-->
-            <div class="footer-top">
+            <!-- <div class="footer-top">
                 <div class="container">
                     <div class="row">
                         @foreach($contact_footer as $key => $logo)
@@ -344,12 +346,20 @@
 
                     </div>
                 </div>
-            </div>
-
+            </div> -->
             <div class="footer-widget">
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-2">
+                        @foreach($contact_footer as $key => $logo)
+                        <div class="col-sm-3">
+                            <div class="single-widget">
+                                <p style="margin: 20px 0;"><img width="100%" src="{{asset('/public/uploads/contact/'.$logo->info_logo)}}"></p>
+                                <p>{{$logo->slogan_logo}}</p>
+                            </div>
+                        </div>
+                        @endforeach
+
+                        <div class="col-sm-3">
                             <div class="single-widget">
                                 <h2>Dịch vụ chúng tôi</h2>
                                 <ul class="nav nav-pills nav-stacked">
@@ -366,11 +376,10 @@
                                 <h2>Thông tin địa chỉ shop</h2>
                                 <div class="information_footer">
                                     {!!$contact_foo->info_contact!!}
-
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
                             <div class="single-widget">
                                 <h2>Fanpage</h2>
                                 <ul class="nav nav-pills nav-stacked">
@@ -387,8 +396,7 @@
             <div class="footer-bottom">
                 <div class="container">
                     <div class="row">
-                        <p class="pull-left">Lương Duy Anh 20172952</p>
-
+                        <p class="pull-left">Dung Vu Quoc 20173053</p>
                     </div>
                 </div>
             </div>
@@ -901,10 +909,11 @@
                 });
             });
         </script>
+
+        <!-- dungvq: tìm kiếm sản phẩm  -->
         <script type="text/javascript">
             $('#keywords').keyup(function() {
                 var query = $(this).val();
-
                 if (query != '') {
                     var _token = $('input[name="_token"]').val();
 
@@ -1122,18 +1131,15 @@
                         for(var i = 0; i < home_cart.length; i++) {
                             home_cart[i].style.display = 'inline';
                         }
-
                         var rm_home_cart = $('.rm_home_cart_' + id);
                         for(var i = 0; i < rm_home_cart.length; i++) {
                             rm_home_cart[i].style.display = 'none';
                         }
                         // document.getElementsByClassName("home_cart_" + id)[0].style.display = "inline";
                         // document.getElementsByClassName("rm_home_cart_" + id)[0].style.display = "none";
-
                         hover_cart();
                         show_cart();
                         cart_session();
-
                     }
 
                 });
@@ -1218,11 +1224,14 @@
                         var output = '<form>' + data['csrf'] + '<table class="table table-condensed"><thead><tr class="cart_menu"><td class="image">Hình ảnh</td><td class="description">Tên sản phẩm</td><td class="description">Số lượng tồn</td><td class="price">Giá sản phẩm</td><td class="quantity">Số lượng</td><td class="total">Thành tiền</td><td></td></tr></thead><tbody>';
                         if(data['cart']) {
                             var total = 0;
-                            data['cart'].forEach(function(item, index, arr){
+                            console.log(typeof data['cart']);
+                            console.log(data['cart']);
+
+                            for (const [key, item] of Object.entries(data['cart'])) {
                                 var subtotal = item['product_price'] * item['product_qty'];
                                 total += subtotal;
                                 output += '<tr><td class=""><img src="' + data['url'] + '/public/uploads/product/' + item['product_image'] + '" width="20%" alt="' + item['product_name'] + '" /></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_name'] + '</p></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_quantity'] + '</p></td><td class="cart_price"><p>' + item['product_price'] + 'VNĐ</p></td><td class="cart_quantity"><div class="cart_quantity_button"><input class="cart_qty_update" type="number" data-session_id="' + item['session_id'] + '" min="1" value="' + item['product_qty'] + '" ></div></td><td class="cart_total"><p class="cart_total_price">' + item['product_price'] + 'VNĐ</p></td><td class="cart_delete"><a class="cart_quantity_delete" style="cursor:pointer" id="' + item['session_id'] + '" onclick="DeleteItemCart(this.id)"><i class="fa fa-times"></i></a></td></tr>';
-                            });
+                            }
                         }
                         output += 
                         '<tr><td><a class="btn btn-default check_out" href="' + data['url'] +  '/del-all-product' + '">Xóa tất cả</a></td><td>';

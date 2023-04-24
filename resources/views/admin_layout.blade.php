@@ -434,7 +434,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 contentType: false,
                 cache: false,
                 processData: false,
-
                 data: form_data,
                 success: function(data) {
                     alert('Thêm đối tác thành công');

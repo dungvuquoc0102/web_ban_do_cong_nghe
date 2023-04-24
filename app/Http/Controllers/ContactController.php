@@ -28,7 +28,6 @@ class ContactController extends Controller
 
         //them hinh anh
         if ($get_image) {
-
             $get_name_image = $get_image->getClientOriginalName();
             $name_image = current(explode('.', $get_name_image));
             $new_image =  $name_image . rand(0, 99) . '.' . $get_image->getClientOriginalExtension();
@@ -41,6 +40,7 @@ class ContactController extends Controller
 
         $icons->save();
     }
+
     public function add_nut(Request $request)
     {
         $data = $request->all();
@@ -53,7 +53,6 @@ class ContactController extends Controller
 
         //them hinh anh
         if ($get_image) {
-
             $get_name_image = $get_image->getClientOriginalName();
             $name_image = current(explode('.', $get_name_image));
             $new_image =  $name_image . rand(0, 99) . '.' . $get_image->getClientOriginalExtension();
@@ -82,9 +81,9 @@ class ContactController extends Controller
             <thead>
               <tr>
                 <th>Tên đối tác</th>
-                <th>Hình ảnh đối tác</th>
-                <th>Link đối tác</th>
-                <th>Quản lý</th>
+                <th>Hình ảnh</th>
+                <th>Link</th>
+                <th>Thao tác</th>
               </tr>
               </tr>
             </thead>
@@ -95,7 +94,7 @@ class ContactController extends Controller
                 <td>' . $ico->name . '</td>
                 <td><img height="80px" width="150px" src="' . url('/public/uploads/icons/' . $ico->image) . '"></td>
                 <td>' . $ico->link . '</td>
-                 <td><button id="' . $ico->id_icons . '" class="btn btn-warning" onclick="delete_icons(this.id)">Xóa đối tác</button></td>
+                 <td><button id="' . $ico->id_icons . '" class="btn btn-danger" onclick="delete_icons(this.id)">Xóa</button></td>
               </tr>';
         }
         $output .= '</tbody>
