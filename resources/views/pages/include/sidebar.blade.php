@@ -2,6 +2,7 @@
      <div class="left-sidebar">
         <h2>@lang('lang.danhmuc')</h2>
         <!--category-products-->
+        <!-- dungvq: bootstrap  -->
         <div class="panel-group category-products" id="accordian">
             @foreach($category as $key => $cate)
                 @if($cate->category_parent == 0)

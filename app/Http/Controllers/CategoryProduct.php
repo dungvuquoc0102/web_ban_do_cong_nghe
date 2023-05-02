@@ -285,9 +285,9 @@ class CategoryProduct extends Controller
                                     }
                                 } else {
                                     $output .=
-                                    '<button class="btn btn-default home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i> Thêm giỏ hàng</button>
+                                    '<button class="btn btn-default home_cart_' . $val->product_id . '" id="' . $val->product_id . '" onclick="Addtocart(this.id);"><i class="fa fa-shopping-cart"></i> Thêm giỏ hàng</button>
                 
-                                    <button style="display:none" class="btn btn-danger rm_home_cart_' . $pro->product_id . '" id="' . $pro->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i> Bỏ đã thêm</button>';
+                                    <button style="display:none" class="btn btn-danger rm_home_cart_' . $val->product_id . '" id="' . $val->product_id . '" onclick="Deletecart(this.id);"><i class="fa fa-shopping-cart"></i> Bỏ đã thêm</button>';
                                 }
                             $output .= '</div>
                         </div>

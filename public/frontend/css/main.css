@@ -1550,7 +1550,7 @@ h2.title {
 
 .breadcrumbs .breadcrumb {
     background: transparent;
-    margin-bottom: 75px;
+    margin: 20px 0;
     padding-left: 0;
 }
 
@@ -1561,7 +1561,7 @@ h2.title {
 }
 
 .breadcrumbs .breadcrumb li a:after {
-    content: "";
+    /* content: ""; */
     height: auto;
     width: auto;
     border-width: 8px;
@@ -1604,6 +1604,7 @@ h2.title {
 .cart_info table tr td {
     border-top: 0 none;
     vertical-align: inherit;
+    white-space: nowrap;
 }
 
 #cart_items .cart_info .image {

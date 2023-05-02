@@ -94,16 +94,15 @@
                         </div>
                         <div class="col-sm-8">
                             <div class="shop-menu pull-right">
-
                                 <ul class="nav navbar-nav">
-
                                     <?php
                                     $customer_id = Session()->get('customer_id');
                                     $shipping_id = Session()->get('shipping_id');
+                                    // print_r("hello");
+                                    // print_r($shipping_id);
                                     if ($customer_id != NULL && $shipping_id == NULL) {
                                     ?>
-                                        <li><a href="{{URL::to('/checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
-
+                                        <li><a href="{{URL::to('/checkout')}}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
                                     <?php
                                     } elseif ($customer_id != NULL && $shipping_id != NULL) {
                                     ?>
@@ -111,7 +110,7 @@
                                     <?php
                                     } else {
                                     ?>
-                                        <li><a href="{{URL::to('/dang-nhap')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                                        <!-- <li><a href="{{URL::to('/dang-nhap')}}"><i class="fa fa-crosshairs"></i> Đăng nhập</a></li> -->
                                     <?php
                                     }
                                     ?>
@@ -138,13 +137,9 @@
                                     $customer_id = Session()->get('customer_id');
                                     if($customer_id!=NULL){
                                     @endphp
-
                                     <li>
-                                        <a href="{{URL::to('history')}}"><i class="fa fa-bell"></i> Lịch sử đơn hàng </a>
-
+                                        <a href="{{URL::to('history')}}"><i class="fa fa-bell" aria-hidden="true"></i> Lịch sử đơn hàng </a>
                                     </li>
-
-
                                     @php
                                     }
                                     @endphp
@@ -155,18 +150,19 @@
                                     if ($customer_id != NULL) {
                                     ?>
                                         <li>
-                                            <a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i> Đăng xuất</a>
-                                            <p>{{$customer_name}}</p>
+                                            <a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-sign-out"></i> Đăng xuất</a>
+                                        </li>
+                                        <li>
+                                        <a href="#"><i class="fa fa-user"></i> {{$customer_name }}</a>
+
                                         </li>
                                     <?php
                                     } else {
                                     ?>
-                                        <li><a href="{{URL::to('/dang-nhap')}}"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+                                        <li style="white-space: nowrap; margin-right: 10px;"><a href="{{URL::to('/dang-nhap')}}"><i class="fa fa-sign-in"></i> Đăng nhập</a></li>
                                     <?php
                                     }
                                     ?>
-
-
                                 </ul>
                             </div>
                         </div>
@@ -298,23 +294,43 @@
                             height: 100px;
                         }
 
-                        button.owl-prev {
-                            font-size: 45px !important;
+                        .owl-theme .owl-nav {
+                            margin-top: 0;
+                        }
 
+                        button.owl-prev {
+                            font-size: 60px !important;
+                            position: absolute;
+                            top: 40%;
+                            left: 0;
+                            color: white;
+                            transform: translateY(-50%);
+                        }
+
+                        button.owl-prev:hover{
+                            background: none !important;
                         }
 
                         button.owl-next {
-                            font-size: 45px !important;
+                            font-size: 60px !important;
+                            position: absolute;
+                            top: 40%;
+                            right: 0;
+                            color: white;
+                            transform: translateY(-50%);
+                        }
 
+                        button.owl-next:hover{
+                            background: none !important;
                         }
                     </style>
                     <div class="col-md-12">
                         <h3 class="doitac">Đối tác của chúng tôi</h3>
-                        <div class="owl-carousel owl-theme" style="padding: 20px 0px 50px;">
+                        <div class="owl-carousel owl-theme" style="margin: 20px 0px 50px;">
                             @foreach($icons_doitac as $key => $doitac)
                             <div class="item" style="padding-left:0 !important; ">
                                 <a target="_blank" href="{{$doitac->link}}">
-                                    <p><img width="100%" src="{{asset('public/uploads/icons/'.$doitac->image)}}"></p>
+                                    <p style="margin-bottom: 0px;"><img style="object-fit: cover;" width="100%" src="{{asset('public/uploads/icons/'.$doitac->image)}}"></p>
                                     <h4 class="doitac_name">{{$doitac->name}}</h4>
                                 </a>
                             </div>
@@ -405,6 +421,7 @@
         </footer>
         <!--/Footer-->
 
+        <!-- javascript  -->
         <script src="{{asset('public/frontend/js/jquery.js')}}"></script>
         <script src="{{asset('public/frontend/js/bootstrap.min.js')}}"></script>
         <script src="{{asset('public/frontend/js/jquery.scrollUp.min.js')}}"></script>
@@ -420,7 +437,6 @@
         <script src="{{asset('public/frontend/js/owl.carousel.js')}}"></script>
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
         <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
         <!-- Messenger Plugin chat Code -->
@@ -479,12 +495,15 @@
             }
         </script>
 
-        <!-- load more sản phẩm  -->
+        <!-- load và load more sản phẩm trang chủ  -->
         <script type="text/javascript">
             load_more_product();
-            cart_session();
-            htmlLoaded();
 
+            //1 bộ 2 function để xử lí thêm giỏ hàng ở trang chủ
+            // cart_session();
+            // htmlLoaded();
+
+            // dungvq: thêm danh sách thẻ input hidden chứa product_id(danh sách sản phẩm trong giỏ hàng) vào thẻ div có id #cart_session
             function cart_session() {
                 $.ajax({
                     url: "{{url('/cart-session')}}",
@@ -496,6 +515,7 @@
                 });
             }
 
+            //dungvq: khi load lại trang thì kiểm tra nếu có các sản phẩm nào trong giỏ hàng thì hiển thị nút 'bỏ đã thêm'
             function htmlLoaded() {
                 $(window).load(function() {
                     var id = [];
@@ -538,6 +558,7 @@
                 });
             }
 
+            //load more sản phẩm trang chủ
             $(document).on('click', '#load_more_button', function() {
                 var id = $(this).data('id');
                 $('#load_more_button').html('<b>Loading...</b>');
@@ -725,7 +746,7 @@
                 //alert(cate_id);
                 $.ajax({
                     url: "{{url('/product-tabs')}}",
-                    method: "POST",
+                    method: "GET",
                     data: {
                         cate_id: cate_id,
                         _token: _token
@@ -741,7 +762,7 @@
                     var _token = $('input[name="_token"]').val();
                     $.ajax({
                         url: "{{url('/product-tabs')}}",
-                        method: "POST",
+                        method: "GET",
                         data: {
                             cate_id: cate_id,
                             _token: _token
@@ -1089,6 +1110,8 @@
                 });
             });
         </script>
+
+        <!-- hover_cart  -->
         <script type="text/javascript">
             hover_cart();
             show_cart();
@@ -1101,24 +1124,21 @@
                         $('.giohang-hover').html(data);
 
                     }
-
                 });
             }
 
-            //show cart quantity
+            //dungvq: show ra số lượng sp trong giỏ hàng ( cạnh hover-cart) trên thanh menu
             function show_cart() {
                 $.ajax({
                     url: "{{url('/show-cart')}}",
                     method: "GET",
                     success: function(data) {
                         $('.show-cart').html(data);
-
                     }
-
                 });
             }
             
-            // dungvq: xóa sản phẩm trong giỏ hàng 
+            // dungvq: xóa sản phẩm trong hover-cart
             function Deletecart(id) {
                 $.ajax({
                     url: "{{url('/remove-item')}}",
@@ -1139,15 +1159,15 @@
                         // document.getElementsByClassName("rm_home_cart_" + id)[0].style.display = "none";
                         hover_cart();
                         show_cart();
-                        cart_session();
+                        // cart_session();
                     }
 
                 });
             }
+
+            //thêm giỏ hàng khi xem chi tiết sản phẩm
             $(document).ready(function() {
-
                 $('.add-to-cart').click(function() {
-
                     var id = $(this).data('id_product');
                     // alert(id);
                     var cart_product_id = $('.cart_product_id_' + id).val();
@@ -1191,7 +1211,7 @@
 
                                 show_cart();
                                 hover_cart();
-                                cart_session();
+                                // cart_session();
                             }
 
                         });
@@ -1203,8 +1223,9 @@
             });
         </script>
 
-        <!-- Thêm giỏ hàng  -->
+        <!-- show nhanh giỏ hàng -->
         <script type="text/javascript">
+            //dungvq: show nhanh giỏ hàng
             function show_quick_cart() {
                 $.ajax({
                     url: "{{url('/show_quick_cart')}}",
@@ -1215,22 +1236,26 @@
                     }
                 });
             }
-
+            // dungvq: show nhanh giỏ hàng 2 
             function show_quick_cart_2() {
                 $.ajax({
                     url: "{{url('/show_quick_cart_2')}}",
                     method: 'GET',
                     success: function(data) {
-                        var output = '<form>' + data['csrf'] + '<table class="table table-condensed"><thead><tr class="cart_menu"><td class="image">Hình ảnh</td><td class="description">Tên sản phẩm</td><td class="description">Số lượng tồn</td><td class="price">Giá sản phẩm</td><td class="quantity">Số lượng</td><td class="total">Thành tiền</td><td></td></tr></thead><tbody>';
+                        var output = '';
+                        if(data['message']){
+                            output = '<div class="alert alert-success">' + data['message'] + '</div>';
+                        }
+                        output = '<form>' + data['csrf'] + '<table class="table table-condensed"><thead><tr class="cart_menu"><td class="image">Hình ảnh</td><td class="description">Tên sản phẩm</td><td class="description">Số lượng tồn</td><td class="price">Giá sản phẩm</td><td class="quantity">Số lượng</td><td class="total">Thành tiền</td><td></td></tr></thead><tbody>';
                         if(data['cart']) {
                             var total = 0;
-                            console.log(typeof data['cart']);
-                            console.log(data['cart']);
+                            // console.log(typeof data['cart']);
+                            // console.log(data['cart']);
 
                             for (const [key, item] of Object.entries(data['cart'])) {
                                 var subtotal = item['product_price'] * item['product_qty'];
                                 total += subtotal;
-                                output += '<tr><td class=""><img src="' + data['url'] + '/public/uploads/product/' + item['product_image'] + '" width="20%" alt="' + item['product_name'] + '" /></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_name'] + '</p></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_quantity'] + '</p></td><td class="cart_price"><p>' + item['product_price'] + 'VNĐ</p></td><td class="cart_quantity"><div class="cart_quantity_button"><input class="cart_qty_update" type="number" data-session_id="' + item['session_id'] + '" min="1" value="' + item['product_qty'] + '" ></div></td><td class="cart_total"><p class="cart_total_price">' + item['product_price'] + 'VNĐ</p></td><td class="cart_delete"><a class="cart_quantity_delete" style="cursor:pointer" id="' + item['session_id'] + '" onclick="DeleteItemCart(this.id)"><i class="fa fa-times"></i></a></td></tr>';
+                                output += '<tr><td class=""><img src="' + data['url'] + '/public/uploads/product/' + item['product_image'] + '" width="20%" alt="' + item['product_name'] + '" /></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_name'] + '</p></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_quantity'] + '</p></td><td class="cart_price"><p>' + new Intl.NumberFormat({ maximumSignificantDigits: 3 }).format(item['product_price']) + 'VNĐ</p></td><td class="cart_quantity"><div class="cart_quantity_button"><input class="cart_qty_update" type="number" data-session_id="' + item['session_id'] + '" min="1" value="' + item['product_qty'] + '" ></div></td><td class="cart_total"><p class="cart_total_price">' + new Intl.NumberFormat({ maximumSignificantDigits: 3 }).format(item['product_price'] * item['product_qty']) + 'VNĐ</p></td><td class="cart_delete"><a class="cart_quantity_delete" style="cursor:pointer" id="' + item['session_id'] + '" onclick="DeleteItemCart(this.id)"><i class="fa fa-times"></i></a></td></tr>';
                             }
                         }
                         output += 
@@ -1248,6 +1273,7 @@
                 });
             }
 
+            //xóa sản phẩm ở show nhanh giỏ hàng
             function DeleteItemCart($session_id) {
                 var session_id = $session_id;
                 var _token = $('input[name="_token"]').val();
@@ -1268,6 +1294,7 @@
                 });
             }
 
+            //update lại show nhanh giỏ hàng khi đổi số lượng của sp
             $(document).on('input', '.cart_qty_update', function() {
 
                 var quantity = $(this).val();
@@ -1286,12 +1313,13 @@
                     },
 
                     success: function() {
+                        hover_cart();
                         show_quick_cart();
                     }
 
                 });
             })
-            // thêm vào giỏ hàng 
+            //dungvq: thêm vào giỏ hàng ( được gọi khi bấm thêm giỏ hàng ở trang chủ)
             function Addtocart($product_id) {
                 var id = $product_id;
                 // alert(id);
@@ -1331,7 +1359,7 @@
                             }
                             hover_cart();
                             show_cart();
-                            cart_session();
+                            // cart_session();
                             show_quick_cart_2();
                         }
                     });
@@ -1339,7 +1367,8 @@
             }
         </script>
 
-        <!--add to  cart quickview-->
+        <!-- thêm giỏ hàng khi xem nhanh 1 sản phẩm  -->
+        <!--add to cart quickview-->
         <script type="text/javascript">
             $(document).on('click', '.add-to-cart-quickview', function() {
                 var id = $(this).data('id_product');
@@ -1379,6 +1408,34 @@
             $(document).on('click', '.redirect-cart', function() {
                 window.location.href = "{{url('/gio-hang')}}";
             });
+        </script>
+
+        <script type="text/javascript">
+            //update lại trang giỏ hàng khi đổi số lượng của sp
+            $(document).on('input', '.cart_qty_update_cart_ajax', function() {
+
+            // var quantity = $(this).val();
+            // var session_id = $(this).data('session_id');
+
+            // var _token = $('input[name="_token"]').val();
+            // // alert(quantity);
+            // // alert(session_id);
+            // $.ajax({
+            //     url: "{{url('/update-quick-cart')}}",
+            //     method: 'POST',
+            //     data: {
+            //         quantity: quantity,
+            //         session_id: session_id,
+            //         _token: _token
+            //     },
+
+            //     success: function() {
+            //         hover_cart();
+            //         show_quick_cart();
+            //     }
+
+            });
+            })
         </script>
         
         <script type="text/javascript">

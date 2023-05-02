@@ -102,7 +102,7 @@ Route::post('/export-csv', 'CategoryProduct@export_csv');
 Route::post('/import-csv', 'CategoryProduct@import_csv');
 Route::post('/arrange-category', 'CategoryProduct@arrange_category');
 
-Route::post('/product-tabs', 'CategoryProduct@product_tabs');
+Route::get('/product-tabs', 'CategoryProduct@product_tabs');
 
 //Brand
 Route::get('/add-brand-product', 'BrandProduct@add_brand_product');
@@ -155,13 +155,15 @@ Route::post('/insert-coupon-code', 'CouponController@insert_coupon_code');
 
 //Cart
 Route::post('/update-cart-quantity', 'CartController@update_cart_quantity');
+//update cart trang giỏ hàng khi thay đổi số lượng
 Route::post('/update-cart', 'CartController@update_cart');
 Route::post('/save-cart', 'CartController@save_cart');
 Route::post('/add-cart-ajax', 'CartController@add_cart_ajax');
-Route::get('/show-cart', 'CartController@show_cart');
+// Route::get('/show-cart', 'CartController@show_cart');
 Route::get('/gio-hang', 'CartController@gio_hang');
 Route::get('/delete-to-cart/{rowId}', 'CartController@delete_to_cart');
 Route::get('/del-product/{session_id}', 'CartController@delete_product');
+//update cart trang quick cart khi thay đổi số lượng
 Route::post('/update-quick-cart', 'CartController@update_quick_cart');
 
 Route::get('/del-all-product', 'CartController@delete_all_product');

@@ -354,14 +354,14 @@ class CheckoutController extends Controller
     $email = $request->email_account;
     $password = md5($request->password_account);
     $result = DB::table('tbl_customers')->where('customer_email', $email)->where('customer_password', $password)->first();
-    if (Session()->get('coupon') == true) {
+    if (Session()->get('coupon')) {
       Session()->forget('coupon');
     }
 
     if ($result) {
       Session()->put('customer_id', $result->customer_id);
       Session()->put('customer_name', $result->customer_name);
-      return Redirect::to('/checkout');
+      return Redirect::to('/');
     } else {
       return Redirect::to('/dang-nhap');
     }

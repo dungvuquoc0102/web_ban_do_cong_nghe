@@ -196,7 +196,12 @@ class CartController extends Controller
     public function show_quick_cart()
     {
         $temp = csrf_field();
-        $output = '
+        $output = '';
+        // if(Session()->get('message')){
+        //     $output .= '<div class="alert alert-success">' . Session()->get('message') . '</div>';
+        //     Session()->put('message', pull);
+        // }
+        $output .= '
     <form>
     ' . $temp . '
     <table class="table table-condensed">
@@ -240,7 +245,7 @@ class CartController extends Controller
                     </td>
                     <td class="cart_total">
                         <p class="cart_total_price">
-                            ' . number_format($cart['product_price'], 0, ',', '.') . 'VNĐ
+                            ' . number_format($cart['product_price'] * $cart['product_qty'], 0, ',', '.') . 'VNĐ
                         </p>
                     </td>
                     <td class="cart_delete">
@@ -303,6 +308,10 @@ class CartController extends Controller
         $data['customer_id'] = $customer_id;
         if(Session()->get('cart')) {
             $data['cart'] = Session()->get('cart');
+        }
+        if(Session()->get('message')) {
+            $data['message'] = Session()->get('message');
+            Session()->put('message',null);
         }
 
         // $data2 = array();
@@ -367,13 +376,11 @@ class CartController extends Controller
         $cart = Session()->get('cart');
         if ($cart == true) {
             $message = '';
-
             foreach ($data['cart_qty'] as $key => $qty) {
                 $i = 0;
                 foreach ($cart as $session => $val) {
                     $i++;
-
-                    if ($val['session_id'] == $key && $qty < $cart[$session]['product_quantity']) {
+                    if ($val['session_id'] == $key && $qty <= $cart[$session]['product_quantity']) {
 
                         $cart[$session]['product_qty'] = $qty;
                         $message .= '<p style="color:blue">' . $i . ') Cập nhật số lượng :' . $cart[$session]['product_name'] . ' thành công</p>';
@@ -386,12 +393,11 @@ class CartController extends Controller
             Session()->put('cart', $cart);
             return redirect()->back()->with('message', $message);
         } else {
-            return redirect()->back()->with('message', 'Cập nhật số lượng thất bại');
+            return redirect()->back()->with('message', '<p style="color:red">Cập nhật số lượng thất bại</p>');
         }
     }
     public function update_quick_cart(Request $request)
     {
-
         $data = $request->all();
         $cart = Session()->get('cart');
         if ($cart == true) {
@@ -399,10 +405,14 @@ class CartController extends Controller
             foreach ($cart as $session => $val) {
 
                 if ($val['session_id'] == $data['session_id']) {
-                    $cart[$session]['product_qty'] = $data['quantity'];
+                    if($data['quantity'] <= $cart[$session]['product_quantity']) {
+                        $cart[$session]['product_qty'] = $data['quantity'];
+                        // Session()->put('message', '<p style="color:blue">Cập nhật thành công</p>');
+                    } else {
+                        // Session()->put('message', '<p style="color:red">Cập nhật thất bại</p>');
+                    }
                 }
             }
-
             Session()->put('cart', $cart);
         }
     }
@@ -439,6 +449,7 @@ class CartController extends Controller
 
     }
     
+    // dungvq: out
     public function show_cart(Request $request)
     {
         //seo 
