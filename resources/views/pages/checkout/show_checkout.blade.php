@@ -1,6 +1,5 @@
 @extends('layout')
 @section('content')
-
 <section id="cart_items">
 	<div class="container">
 		<div class="breadcrumbs">
@@ -16,8 +15,7 @@
 						margin: 5px 0;
 					}
 				</style>
-				<div class="col-md-12 clearfix">
-
+				<div class="col-md-12 clearfix" style="margin-bottom: 30px;">
 					@if(\Session::has('error'))
 					<div class="alert alert-danger">{{ \Session::get('error') }}</div>
 					{{ \Session::forget('error') }}
@@ -27,8 +25,7 @@
 					{{ \Session::forget('success') }}
 					@endif
 					<div class="bill-to">
-						<p>Điền thông tin gửi hàng</p>
-
+						<p style="padding: 0 15px;">Điền thông tin gửi hàng</p>
 						<div class="col-md-6 form-style">
 							<form method="POST">
 								@csrf
@@ -51,9 +48,6 @@
 								@else
 								<input type="hidden" name="order_coupon" class="order_coupon" value="no">
 								@endif
-
-
-
 								<div class="">
 									<div class="form-group">
 										<label for="exampleInputPassword1">Chọn hình thức thanh toán</label>
@@ -65,29 +59,25 @@
 										</select>
 									</div>
 								</div>
-								<input type="button" value="Xác nhận đơn hàng" name="send_order" class="btn btn-primary btn-sm send_order">
+								<input type="button" value="Đặt hàng" name="send_order" class="btn btn-primary btn-sm send_order">
 							</form>
 						</div>
 						<div class="col-md-6">
 							<form>
 								@csrf
-
 								<div class="form-group">
 									<label for="exampleInputPassword1">Chọn thành phố</label>
 									<select name="city" id="city" class="form-control input-sm m-bot15 choose city">
-
 										<option value="">--Chọn tỉnh thành phố--</option>
 										@foreach($city as $key => $ci)
 										<option value="{{$ci->matp}}">{{$ci->name_city}}</option>
 										@endforeach
-
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="exampleInputPassword1">Chọn quận huyện</label>
 									<select name="province" id="province" class="form-control input-sm m-bot15 province choose">
 										<option value="">--Chọn quận huyện--</option>
-
 									</select>
 								</div>
 								<div class="form-group">
@@ -292,14 +282,11 @@
 						</table>
 					</div>
 				</div>
-
 			</div>
 		</div>
 
 
 	</div>
-
 </section>
 <!--/#cart_items-->
-
 @endsection

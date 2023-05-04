@@ -247,14 +247,14 @@ class CheckoutController extends Controller
       $output = '';
       if ($data['action'] == "city") {
         $select_province = Province::where('matp', $data['ma_id'])->orderby('maqh', 'ASC')->get();
-        $output .= '<option>---Chọn quận huyện---</option>';
+        $output .= '<option>--Chọn quận huyện--</option>';
         foreach ($select_province as $key => $province) {
           $output .= '<option value="' . $province->maqh . '">' . $province->name_quanhuyen . '</option>';
         }
       } else {
 
         $select_wards = Wards::where('maqh', $data['ma_id'])->orderby('xaid', 'ASC')->get();
-        $output .= '<option>---Chọn xã phường---</option>';
+        $output .= '<option>--Chọn xã phường--</option>';
         foreach ($select_wards as $key => $ward) {
           $output .= '<option value="' . $ward->xaid . '">' . $ward->name_xaphuong . '</option>';
         }
@@ -319,15 +319,15 @@ class CheckoutController extends Controller
   {
     //category post
     $category_post = CatePost::orderBy('cate_post_id', 'DESC')->get();
-    //seo 
+    
     //slide
     $slider = Slider::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
-
+    
+    //seo
     $meta_desc = "Đăng nhập thanh toán";
     $meta_keywords = "Đăng nhập thanh toán";
     $meta_title = "Đăng nhập thanh toán";
     $url_canonical = $request->url();
-    //--seo 
 
     $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderby('category_id', 'desc')->get();
     $brand_product = DB::table('tbl_brand')->where('brand_status', '0')->orderby('brand_id', 'desc')->get();

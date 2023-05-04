@@ -1086,7 +1086,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         });
     </script>
 
+    <!-- trang add delivery  -->
     <script type="text/javascript">
+        // lấy danh sách phí vận chuyển 
         fetch_delivery();
 
         function fetch_delivery() {
@@ -1103,8 +1105,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             });
         }
 
+        // blur: khi không click vào class 'fee_feeship_edit' thì thực hiện hàm
+        // edit phí vận chuyển 
         $(document).on('blur', '.fee_feeship_edit', function() {
-
             var feeship_id = $(this).data('feeship_id');
             var fee_value = $(this).text();
             var _token = $('input[name="_token"]').val();
@@ -1125,8 +1128,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         });
 
+        // thêm phí vận chuyển 
         $('.add_delivery').click(function() {
-
             var city = $('.city').val();
             var province = $('.province').val();
             var wards = $('.wards').val();
@@ -1159,6 +1162,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         });
 
+        // hiển thị: huyện theo tỉnh đã chọn, xã theo huyện đã chọn 
         $('.choose').on('change', function() {
             var action = $(this).attr('id');
             var ma_id = $(this).val();

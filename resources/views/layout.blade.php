@@ -1046,6 +1046,7 @@
             });
         </script>
 
+        <!-- đặt hàng khi đã có đầy đủ thông tin  -->
         <script type="text/javascript">
             $(document).ready(function() {
                 $('.send_order').click(function() {
@@ -1411,7 +1412,7 @@
         </script>
 
         <script type="text/javascript">
-            //update lại trang giỏ hàng khi đổi số lượng của sp
+            //dungvq: update lại trang giỏ hàng khi đổi số lượng của sp
             $(document).on('input', '.cart_qty_update_cart_ajax', function() {
 
             // var quantity = $(this).val();
@@ -1435,9 +1436,9 @@
             //     }
 
             });
-            })
         </script>
         
+        <!-- hiển thị: huyện khi chọn tỉnh, xã khi chọn huyện trang checkout  -->
         <script type="text/javascript">
             $(document).ready(function() {
                 $('.choose').on('change', function() {
@@ -1466,6 +1467,8 @@
                 });
             });
         </script>
+
+        <!-- tính phí vận chuyển trang checkout  -->
         <script type="text/javascript">
             $(document).ready(function() {
                 $('.calculate_delivery').click(function() {
@@ -1474,7 +1477,13 @@
                     var xaid = $('.wards').val();
                     var _token = $('input[name="_token"]').val();
                     if (matp == '' && maqh == '' && xaid == '') {
-                        alert('Làm ơn chọn để tính phí vận chuyển');
+                        // alert('Làm ơn chọn để tính phí vận chuyển');
+                        swal({
+                            title: "Chưa có thông tin",
+                            text: "Làm ơn chọn để tính phí vận chuyển!",
+                            type: "warning",
+                            cancelButtonText: "Đóng"
+                        });
                     } else {
                         $.ajax({
                             url: "{{url('/calculate-fee')}}",
@@ -1493,9 +1502,5 @@
                 });
             });
         </script>
-
-
-
     </body>
-
 </html>
