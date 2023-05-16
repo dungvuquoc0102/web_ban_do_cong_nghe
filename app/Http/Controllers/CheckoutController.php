@@ -190,10 +190,10 @@ class CheckoutController extends Controller
       'order_code' => $checkout_code,
     );
 
-    Mail::send('pages.mail.mail_order',  ['cart_array' => $cart_array, 'shipping_array' => $shipping_array, 'code' => $ordercode_mail], function ($message) use ($title_mail, $data) {
-      $message->to($data['email'])->subject($title_mail); //send this mail with subject
-      $message->from($data['email'], $title_mail); //send from this mail
-    });
+    // Mail::send('pages.mail.mail_order',  ['cart_array' => $cart_array, 'shipping_array' => $shipping_array, 'code' => $ordercode_mail], function ($message) use ($title_mail, $data) {
+    //   $message->to($data['email'])->subject($title_mail); //send this mail with subject
+    //   $message->from($data['email'], $title_mail); //send from this mail
+    // });
 
     Session()->forget('coupon');
     Session()->forget('fee');
@@ -222,21 +222,37 @@ class CheckoutController extends Controller
   public function calculate_fee(Request $request)
   {
     $data = $request->all();
+    $feeship_number = 0;
     if ($data['matp']) {
       $feeship = Feeship::where('fee_matp', $data['matp'])->where('fee_maqh', $data['maqh'])->where('fee_xaid', $data['xaid'])->get();
       if ($feeship) {
         $count_feeship = $feeship->count();
         if ($count_feeship > 0) {
           foreach ($feeship as $key => $fee) {
-            Session()->put('fee', $fee->fee_feeship);
+            $feeship_number = $fee->fee_feeship;
+            Session()->put('fee', $feeship_number);
+            Session()->put('fee_address', true);
+            Session()->put('fee_matp', $data['matp']);
+            Session()->put('fee_maqh', $data['maqh']);
+            Session()->put('fee_xaid', $data['xaid']);
             Session()->save();
           }
         } else {
-          Session()->put('fee', 25000);
+          $feeship_number = 30000;
+          Session()->put('fee', $feeship_number);
           Session()->save();
         }
+      } else {
+        $feeship_number = 30000;
+          Session()->put('fee', $feeship_number);
+          Session()->save();
       }
+    } else {
+      $feeship_number = 30000;
+          Session()->put('fee', $feeship_number);
+          Session()->save();
     }
+    // echo $feeship_number . 'đ <a class="cart_quantity_delete" href="'. url('/del-fee') . '"><i class="fa fa-times"></i></a>';
   }
 
 
@@ -247,14 +263,14 @@ class CheckoutController extends Controller
       $output = '';
       if ($data['action'] == "city") {
         $select_province = Province::where('matp', $data['ma_id'])->orderby('maqh', 'ASC')->get();
-        $output .= '<option>--Chọn quận huyện--</option>';
+        $output .= '<option value="">--Chọn quận huyện--</option>';
         foreach ($select_province as $key => $province) {
           $output .= '<option value="' . $province->maqh . '">' . $province->name_quanhuyen . '</option>';
         }
       } else {
 
         $select_wards = Wards::where('maqh', $data['ma_id'])->orderby('xaid', 'ASC')->get();
-        $output .= '<option>--Chọn xã phường--</option>';
+        $output .= '<option value="">--Chọn xã phường--</option>';
         foreach ($select_wards as $key => $ward) {
           $output .= '<option value="' . $ward->xaid . '">' . $ward->name_xaphuong . '</option>';
         }
@@ -314,9 +330,13 @@ class CheckoutController extends Controller
     return Redirect::to('/trang-chu');
   }
 
-  //khách hàng chon thanh toan
+  //dungvq: khách hàng đặt hàng sau khi đã xem giỏ hàng xong
   public function checkout(Request $request)
   {
+    // auth
+    if(!Session()->get('customer_id')) {
+      return Redirect::to('/dang-nhap');
+    }
     //category post
     $category_post = CatePost::orderBy('cate_post_id', 'DESC')->get();
     
@@ -332,8 +352,10 @@ class CheckoutController extends Controller
     $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderby('category_id', 'desc')->get();
     $brand_product = DB::table('tbl_brand')->where('brand_status', '0')->orderby('brand_id', 'desc')->get();
     $city = City::orderby('matp', 'ASC')->get();
+    $province = Province::orderby('maqh', 'ASC')->get();
+    $wards = Wards::orderby('xaid', 'ASC')->get();
 
-    return view('pages.checkout.show_checkout')->with('category', $cate_product)->with('brand', $brand_product)->with('meta_desc', $meta_desc)->with('meta_keywords', $meta_keywords)->with('meta_title', $meta_title)->with('url_canonical', $url_canonical)->with('city', $city)->with('slider', $slider)->with('category_post', $category_post);
+    return view('pages.checkout.show_checkout')->with('category', $cate_product)->with('brand', $brand_product)->with('meta_desc', $meta_desc)->with('meta_keywords', $meta_keywords)->with('meta_title', $meta_title)->with('url_canonical', $url_canonical)->with('city', $city)->with('province', $province)->with('wards', $wards)->with('slider', $slider)->with('category_post', $category_post);
   }
 
 

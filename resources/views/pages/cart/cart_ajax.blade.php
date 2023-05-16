@@ -130,7 +130,7 @@
 										<li>Tổng đã giảm: {{number_format($total - $total_coupon,0,',','.')}}đ</li>
 
 									@elseif ($cou['coupon_condition'] == 2)
-										<li>Mã giảm: {{number_format($cou['coupon_number'],0,',','.')}}.000đ</li>
+										<li>Mã giảm: {{number_format($cou['coupon_number'],0,',','.')}}đ</li>
 										@php 
 										$total_coupon = $total - $cou['coupon_number'];
 										echo '<li>Tổng giảm: '. number_format($total_coupon, 0, ',', '.') .'đ</li>'

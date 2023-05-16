@@ -262,9 +262,9 @@ class CartController extends Controller
                 </td>
                 <td>';
             if (Session()->get('customer_id')) {
-                $output .= '<a class="btn btn-default check_out" href="' . url('/checkout') . '">Đặt hàng</a>';
+                $output .= '<a class="btn btn-default check_out" href="' . url('/checkout') . '">Mua hàng</a>';
             } else {
-                $output .= '<a class="btn btn-default check_out" href="' . url('/dang-nhap') . '">Đăng nhập</a>';
+                $output .= '<a class="btn btn-default check_out" href="' . url('/dang-nhap') . '">Mua hàng</a>';
             }
             $output .= 
                 '</td>
@@ -427,6 +427,7 @@ class CartController extends Controller
             return redirect()->back()->with('message', 'Xóa hết giỏ thành công');
         }
     }
+    
     public function save_cart(Request $request)
     {
         $productId = $request->productid_hidden;

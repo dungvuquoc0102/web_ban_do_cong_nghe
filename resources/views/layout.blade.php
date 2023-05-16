@@ -1050,8 +1050,22 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $('.send_order').click(function() {
+                    var shipping_email = $('.shipping_email').val();
+                    var shipping_name = $('.shipping_name').val();
+                    var shipping_address = $('.shipping_address').val();
+                    var shipping_phone = $('.shipping_phone').val();
+                    var shipping_notes = $('.shipping_notes').val();
+                    var shipping_method = $('.payment_select').val();
+
+
+                    var order_fee = $('.order_fee').val();
+                    var order_coupon = $('.order_coupon').val();
+                    var _token = $('input[name="_token"]').val();
+
                     var total_after = $('.total_after').val();
-                    swal({
+                    if(shipping_email && shipping_name && shipping_address && shipping_phone && shipping_method && order_fee && order_coupon) {
+                        
+                        swal({
                             title: "Xác nhận đơn hàng",
                             text: "Đơn hàng sẽ không được hoàn trả khi đặt,bạn có muốn đặt không?",
                             type: "warning",
@@ -1065,17 +1079,17 @@
                         },
                         function(isConfirm) {
                             if (isConfirm) {
-                                var shipping_email = $('.shipping_email').val();
-                                var shipping_name = $('.shipping_name').val();
-                                var shipping_address = $('.shipping_address').val();
-                                var shipping_phone = $('.shipping_phone').val();
-                                var shipping_notes = $('.shipping_notes').val();
-                                var shipping_method = $('.payment_select').val();
+                                // var shipping_email = $('.shipping_email').val();
+                                // var shipping_name = $('.shipping_name').val();
+                                // var shipping_address = $('.shipping_address').val();
+                                // var shipping_phone = $('.shipping_phone').val();
+                                // var shipping_notes = $('.shipping_notes').val();
+                                // var shipping_method = $('.payment_select').val();
 
 
-                                var order_fee = $('.order_fee').val();
-                                var order_coupon = $('.order_coupon').val();
-                                var _token = $('input[name="_token"]').val();
+                                // var order_fee = $('.order_fee').val();
+                                // var order_coupon = $('.order_coupon').val();
+                                // var _token = $('input[name="_token"]').val();
 
                                 $.ajax({
                                     url: "{{url('/confirm-order')}}",
@@ -1104,9 +1118,16 @@
                                 swal("Đóng", "Đơn hàng chưa được gửi, làm ơn hoàn tất đơn hàng", "error");
 
                             }
-
                         });
-
+                    } else {
+                        swal({
+                            title: "Chưa có thông tin",
+                            text: "Làm ơn điền thông tin nhận hàng!",
+                            type: "warning",
+                            cancelButtonText: "Đóng"
+                        });
+                    }
+                   
 
                 });
             });
@@ -1262,9 +1283,9 @@
                         output += 
                         '<tr><td><a class="btn btn-default check_out" href="' + data['url'] +  '/del-all-product' + '">Xóa tất cả</a></td><td>';
                         if (data['customer_id']) {
-                            output += '<a class="btn btn-default check_out" href="' + data['url'] + '/checkout' + '">Đặt hàng</a>';
+                            output += '<a class="btn btn-default check_out" href="' + data['url'] + '/checkout' + '">Mua hàng</a>';
                         } else {
-                            output += '<a class="btn btn-default check_out" href="' + data['url'] + '/dang-nhap' + '">Đăng nhập</a>';
+                            output += '<a class="btn btn-default check_out" href="' + data['url'] + '/dang-nhap' + '">Mua hàng</a>';
                         }
                         output += '</td><td colspan="2"><li>Tổng tiền :<span>' + total + 'VNĐ</span></li></td></tr>';
 
@@ -1476,7 +1497,10 @@
                     var maqh = $('.province').val();
                     var xaid = $('.wards').val();
                     var _token = $('input[name="_token"]').val();
-                    if (matp == '' && maqh == '' && xaid == '') {
+                    console.log('matp: ' + matp);
+                    console.log('maqh: ' + maqh);
+                    console.log('xaid: ' + xaid);
+                    if (matp == '' || maqh == '' || xaid == '') {
                         // alert('Làm ơn chọn để tính phí vận chuyển');
                         swal({
                             title: "Chưa có thông tin",
@@ -1494,7 +1518,7 @@
                                 xaid: xaid,
                                 _token: _token
                             },
-                            success: function() {
+                            success: function(data) {
                                 location.reload();
                             }
                         });
@@ -1502,5 +1526,34 @@
                 });
             });
         </script>
+        <!-- dungvq: tự động tính phí vận chuyển khi điền đủ city, province, ward trang checkout  -->
+        <!-- <script type="text/javascript">
+            $(document).ready(function() {
+                $('.wards.checkout').on('change', function() {
+                    var matp = $('.city').val();
+                    var maqh = $('.province').val();
+                    var xaid = $('.wards').val();
+                    var _token = $('input[name="_token"]').val();
+                    if (matp == '' || maqh == '' || xaid == '') {
+                        
+                    } else {
+                        $.ajax({
+                                url: "{{url('/calculate-fee')}}",
+                                method: 'POST',
+                                data: {
+                                    matp: matp,
+                                    maqh: maqh,
+                                    xaid: xaid,
+                                    _token: _token
+                                },
+                                success: function(data) {
+                                    // $('#fee_checkout').html(data);
+                                    location.reload();
+                                }
+                            });
+                    }
+                });
+            });
+        </script> -->
     </body>
 </html>
