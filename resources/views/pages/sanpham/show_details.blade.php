@@ -1,5 +1,5 @@
 @extends('layout')
-@section('content')
+@section('content_category')
 @foreach($product_details as $key => $value)
 
 <input type="hidden" id="product_viewed_id" value="{{$value->product_id}}">
@@ -24,8 +24,7 @@
 		<ol class="breadcrumb" style="background: none;">
 			<li class="breadcrumb-item"><a href="{{url('/')}}">Trang chủ</a></li>
 			<li class="breadcrumb-item"><a href="{{url('/danh-muc/'.$cate_slug)}}">{{$product_cate}}</a></li>
-			<li class="breadcrumb-item active" aria-current="page">{{$meta_title}}</li>
-
+			<li class="breadcrumb-item" aria-current="page">{{$meta_title}}</li>
 			<li>
 				<div class="fb-share-button" data-href="{{$url_canonical}}" data-layout="button" data-size="small">
 					<a target="_blank" href="{{$url_canonical}}" class="fb-xfbml-parse-ignore">Chia sẻ</a>
@@ -79,8 +78,8 @@
 				<input type="button" value="Thêm giỏ hàng" class="btn btn-primary btn-sm add-to-cart" data-id_product="{{$value->product_id}}" name="add-to-cart">
 			</form>
 
-			<p><b>Tình trạng:</b> Còn hàng</p>
-			<p><b>Điều kiện:</b> Mơi 100%</p>
+			<p><b>Tình trạng:</b> {{$value->product_quantity ? 'Còn hàng' : 'Hết hàng'}}</p>
+			<p><b>Điều kiện:</b> Mới 100%</p>
 			<p><b>Số lượng kho còn:</b> {{$value->product_quantity}}</p>
 			<p><b>Thương hiệu:</b> {{$value->brand_name}}</p>
 			<p><b>Danh mục:</b> {{$value->category_name}}</p>
@@ -88,11 +87,12 @@
 				a.tags_style {
 					margin: 3px 2px;
 					border: 1px solid;
+					border-radius: 5px;
 
 					height: auto;
-					background: #428bca;
+					background: #fe980f;
 					color: #ffff;
-					padding: 0px;
+					padding: 3px;
 
 				}
 
@@ -129,7 +129,7 @@
 			<li class="active"><a href="#reviews" data-toggle="tab">Đánh giá</a></li>
 		</ul>
 	</div>
-	<div class="tab-content">
+	<div class="col-sm-12 tab-content" style="padding: 0 30px;">
 		<div class="tab-pane " id="details">
 			<p>{!!$value->product_desc!!}</p>
 
@@ -204,12 +204,14 @@
 		<div class="carousel-inner">
 			<div class="item active">
 				@foreach($relate as $key => $lienquan)
-				<div class="col-sm-4">
+				<div class="col-xs-6 col-sm-4 col-md-3">
 					<div class="product-image-wrapper">
 						<div class="single-products">
 							<div class="productinfo text-center product-related">
 								<a href="{{URL::to('/chi-tiet/'.$lienquan->product_slug)}}">
+									<div class="cover-img">
 									<img src="{{URL::to('public/uploads/product/'.$lienquan->product_image)}}" alt="" />
+									</div>
 								</a>
 								<h2>{{number_format($lienquan->product_price,0,',','.').' '.'VNĐ'}}</h2>
 								<p>{{$lienquan->product_name}}</p>

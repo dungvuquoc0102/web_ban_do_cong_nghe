@@ -103,24 +103,24 @@
           }
           @media screen and (min-width: 768px) {
             .modal-dialog {
-              width: 700px;
+              width: 500px;
               /* New width for default modal */
             }
             .modal-sm {
-              width: 350px;
+              width: 300px;
               /* New width for small modal */
             }
           }
           @media screen and (min-width: 992px) {
             .modal-lg {
-              width: 1200px;
+              width: 900px;
               /* New width for large modal */
             }
           }
         </style>
         <div class="row">
           <div class="col-md-5">
-            <span id="product_quickview_image"></span>
+            <!-- <span id="product_quickview_image"></span> -->
             <span id="product_quickview_gallery"></span>
           </div>
           <form>

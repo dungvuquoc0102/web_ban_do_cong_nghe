@@ -1,8 +1,6 @@
 <?php
 
 return [
-
-
     'product' => 'Products',
     'home' => 'Home',
     'video' => 'Videos',

@@ -39,7 +39,7 @@ class HomeController extends Controller
             $cart = Session()->get('cart');
             foreach ($all_product as $key => $pro) {
                 $last_id = $pro->product_id;
-                $output .= '<div class="col-sm-4">
+                $output .= '<div class="col-xs-6 col-sm-4">
                 <div class="product-image-wrapper">
 
                 <div class="single-products">
@@ -61,8 +61,9 @@ class HomeController extends Controller
 
                 <a id="wishlist_producturl' . $pro->product_id . '"  href="' . url('chi-tiet/' . $pro->product_slug) . '">
 
+                <div class="cover-img">
                 <img id="wishlist_productimage' . $pro->product_id . '" src="' . url('public/uploads/product/' . $pro->product_image) . '" alt="' . $pro->product_name . '" />
-
+                </div>
                 <h2>₫' . number_format($pro->product_price, 0, ',', '.') . '</h2>
                 <p>' . $pro->product_name . '</p>
 
@@ -144,7 +145,8 @@ class HomeController extends Controller
         $meta_title = "Trang chủ - DTech";
         $url_canonical = $request->url();
         //category product
-        $category = DB::table('tbl_category_product')->where('category_status', '1')->orderby('category_parent', 'desc')->orderby('category_order', 'ASC')->get();
+        // $category = DB::table('tbl_category_product')->where('category_status', '1')->orderby('category_parent', 'desc')->orderby('category_order', 'ASC')->get();
+        $category = DB::table('tbl_category_product')->where('category_status', '1')->orderby('category_id', 'desc')->get();
         //brand
         $brand = DB::table('tbl_brand')->where('brand_status', '1')->orderby('brand_id', 'desc')->get();
 

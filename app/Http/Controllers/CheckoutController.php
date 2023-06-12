@@ -170,7 +170,7 @@ class CheckoutController extends Controller
     if (Session()->get('fee') == true) {
       $fee = Session()->get('fee') . 'k';
     } else {
-      $fee = '25k';
+      $fee = '30k';
     }
 
     $shipping_array = array(

@@ -324,7 +324,7 @@
                             background: none !important;
                         }
                     </style>
-                    <div class="col-md-12">
+                    <div class="col-sm-12">
                         <h3 class="doitac">Đối tác của chúng tôi</h3>
                         <div class="owl-carousel owl-theme" style="margin: 20px 0px 50px;">
                             @foreach($icons_doitac as $key => $doitac)
@@ -663,7 +663,7 @@
                         var price = data[i].price;
                         var image = data[i].image;
                         var url = data[i].url;
-                        $('#row_viewed').append('<div class="row" style="padding: 10px 5px; margin: 0;"><div class="col-md-4"><img width="100%" src="' + image + '"></div><div class="col-md-8 info_wishlist"><p>' + name + '</p><p style="color:#FE980F">' + price + '</p><a href="' + url + '">Xem ngay</a></div>');
+                        $('#row_viewed').append('<div class="row" style="padding: 10px 5px; margin: 0;"><div class="col-xs-6 col-md-4"><img width="100%" src="' + image + '"></div><div class="col-xs-6 col-md-8 info_wishlist"><p>' + name + '</p><p style="color:#FE980F">' + price + '</p><a href="' + url + '">Xem ngay</a></div>');
                     }
                 }
             }

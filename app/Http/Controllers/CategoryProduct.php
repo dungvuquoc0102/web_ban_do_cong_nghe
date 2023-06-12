@@ -234,7 +234,7 @@ class CategoryProduct extends Controller
                     break;
                 }
                 $output .=  
-                '<div class="col-sm-3">
+                '<div class="col-xs-6 col-sm-3">
                     <div class="product-image-wrapper">
                         <div class="single-products">
                             <div class="productinfo text-center">
@@ -254,7 +254,9 @@ class CategoryProduct extends Controller
                                 <input type="hidden" value="1" class="cart_product_qty_' . $val->product_id . '">
 
                                 <a id="wishlist_producturl' . $val->product_id . '"  href="' . url('chi-tiet/' . $val->product_slug) . '">
+                                    <div class="cover-img">
                                     <img src="' . url('public/uploads/product/' . $val->product_image) . '" alt="' . $val->product_name . '" />
+                                    </div>
                                     <h2>₫' . number_format($val->product_price, 0, ',', '.') . '</h2>
                                     <p>' . $val->product_name . '</p>
                                 </a>';

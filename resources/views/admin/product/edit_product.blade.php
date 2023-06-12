@@ -101,7 +101,7 @@
                             <label for="exampleInputPassword1">Thương hiệu</label>
                                 <select name="product_brand" class="form-control input-sm m-bot15">
                                 @foreach($brand_product as $key => $brand)
-                                        @if($cate->category_id==$pro->category_id)
+                                        @if($brand->brand_id==$pro->brand_id)
                                     <option selected value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
                                         @else
                                     <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>

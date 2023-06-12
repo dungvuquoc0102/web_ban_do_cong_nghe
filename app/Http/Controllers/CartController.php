@@ -45,7 +45,7 @@ class CartController extends Controller
                     </div>
                     </a>
                 <p style="display: flex; align-items: center;">
-                    <a style="text-align:center;font-size:15px" class="delele-hover-cart" href="' . url('/del-product/' . $value['session_id']) . '">
+                    <a style="text-align:center;font-size:15px" class="delele-hover-cart" href="' . url('/del-product/' . $value['product_id']) . '">
                         <i class="fa fa-times"></i>
                     </a>
                 </p>
@@ -321,7 +321,7 @@ class CartController extends Controller
         return $data;
     }
 
-    public function delete_product($session_id)
+    public function delete_product($product_id)
     {
         $cart = Session()->get('cart');
         // echo '<pre>';
@@ -329,7 +329,7 @@ class CartController extends Controller
         // echo '</pre>';
         if ($cart == true) {
             foreach ($cart as $key => $val) {
-                if ($val['session_id'] == $session_id) {
+                if ($val['product_id'] == $product_id) {
                     unset($cart[$key]);
                 }
             }

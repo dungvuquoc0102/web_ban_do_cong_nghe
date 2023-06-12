@@ -142,7 +142,7 @@ class ProductController extends Controller
         $output['product_gallery'] = '';
 
         foreach ($gallery as $key => $gal) {
-            $output['product_gallery'] .= '<p><img width="100%" src="public/uploads/gallery/' . $gal->gallery_image . '"></p>';
+            $output['product_gallery'] .= '<p><img style="width: 100%;" src="public/uploads/gallery/' . $gal->gallery_image . '"></p>';
         }
 
         $output['product_name'] = $product->product_name;
@@ -278,21 +278,24 @@ class ProductController extends Controller
     {
         $this->AuthLogin();
         $data = array();
+
+        //Update các thông tin product
         $product_price = filter_var($request->product_price, FILTER_SANITIZE_NUMBER_INT);
         $price_cost = filter_var($request->price_cost, FILTER_SANITIZE_NUMBER_INT);
+        $data['product_price'] = $product_price;
+        $data['price_cost'] = $price_cost;
 
         $data['product_name'] = $request->product_name;
-        $data['price_cost'] = $price_cost;
         $data['product_tags'] = $request->product_tags;
         $data['product_quantity'] = $request->product_quantity;
         $data['product_slug'] = $request->product_slug;
-        $data['product_price'] = $product_price;
         $data['product_desc'] = $request->product_desc;
         $data['product_content'] = $request->product_content;
         $data['category_id'] = $request->product_cate;
         $data['brand_id'] = $request->product_brand;
         $data['product_status'] = $request->product_status;
 
+        //Update image, file
         $get_image = $request->file('product_image');
         $get_document = $request->file('document');
 
@@ -300,11 +303,12 @@ class ProductController extends Controller
         $path_gallery = 'public/uploads/gallery/';
         $path_document = 'public/uploads/document/';
 
-        //lay file old document 
+        //Lấy thông tin product cũ
         $product = Product::find($product_id);
 
-        //Thêm hình ảnh
+        //Sửa/thêm hình ảnh
         if ($get_image) {
+            //update image
             $get_name_image = $get_image->getClientOriginalName();
             $name_image = current(explode('.', $get_name_image));
             $new_image =  $name_image . rand(0, 99) . '.' . $get_image->getClientOriginalExtension();
@@ -316,8 +320,8 @@ class ProductController extends Controller
             $gallery = array();
             $gallery['gallery_image'] = $new_image;
             $gallery['gallery_name'] = $new_image;
-            // $gallery['product_id'] = $product->product_id;
-            Gallery::where('product_id', $product_id)->where('gallery_name', $product->product_image)->update($gallery);
+            $gallery['product_id'] = $product->product_id;
+            Gallery::where('product_id', $product_id)->where('gallery_image', $product->product_image)->update($gallery);
 
             //unlink old image
             if($product->product_image) {
@@ -332,7 +336,7 @@ class ProductController extends Controller
                 $data['product_image'] = $product->product_image;
             }
         }
-        //Thêm document
+        //Sửa/thêm document
         if ($get_document) {
             $get_name_document = $get_document->getClientOriginalName();
             $name_document = current(explode('.', $get_name_document));
@@ -373,17 +377,16 @@ class ProductController extends Controller
     }
     //End Admin Page
 
+    //User Page
     public function details_product($product_slug, Request $request)
     {
         //category post
         $category_post = CatePost::orderBy('cate_post_id', 'DESC')->get();
         //slide
-        $slider = Slider::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
+        $slider = Slider::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(5)->get();
 
-
-
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderby('category_id', 'desc')->get();
-        $brand_product = DB::table('tbl_brand')->where('brand_status', '0')->orderby('brand_id', 'desc')->get();
+        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderby('category_id', 'desc')->get();
+        $brand_product = DB::table('tbl_brand')->where('brand_status', '1')->orderby('brand_id', 'desc')->get();
 
         $details_product = DB::table('tbl_product')
             ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')

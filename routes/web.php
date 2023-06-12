@@ -162,7 +162,7 @@ Route::post('/add-cart-ajax', 'CartController@add_cart_ajax');
 // Route::get('/show-cart', 'CartController@show_cart');
 Route::get('/gio-hang', 'CartController@gio_hang');
 Route::get('/delete-to-cart/{rowId}', 'CartController@delete_to_cart');
-Route::get('/del-product/{session_id}', 'CartController@delete_product');
+Route::get('/del-product/{product_id}', 'CartController@delete_product');
 //update cart trang quick cart khi thay đổi số lượng
 Route::post('/update-quick-cart', 'CartController@update_quick_cart');
 
