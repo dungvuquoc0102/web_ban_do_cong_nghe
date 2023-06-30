@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Feeship;
 use App\Shipping;
+use App\City;
+use App\Province;
+use App\Wards;
 use App\Order;
 use App\OrderDetails;
 use App\Customer;
@@ -377,6 +380,10 @@ class OrderController extends Controller
 		}
 		$customer = Customer::where('customer_id', $customer_id)->first();
 		$shipping = Shipping::where('shipping_id', $shipping_id)->first();
+		$city_name = City::where('matp', $shipping->shipping_city)->first()->name_city;
+		$province_name = Province::where('maqh', $shipping->shipping_province)->first()->name_quanhuyen;
+		$wards_name = Wards::where('xaid', $shipping->shipping_wards)->first()->name_xaphuong;
+
 
 		$order_details_product = OrderDetails::with('product')->where('order_code', $order_code)->get();
 
@@ -393,7 +400,7 @@ class OrderController extends Controller
 			$coupon_number = 0;
 		}
 
-		return view('admin.order.view_order')->with(compact('order_details', 'customer', 'shipping', 'coupon_condition', 'coupon_number', 'getorder', 'order_status'));
+		return view('admin.order.view_order')->with(compact('order_details', 'customer', 'shipping', 'coupon_condition', 'coupon_number', 'getorder', 'order_status', 'city_name', 'province_name', 'wards_name'));
 	}
 
 	public function manage_order()
@@ -435,7 +442,6 @@ class OrderController extends Controller
 		if (!Session()->get('customer_id')) {
 			return redirect('dang-nhap')->with('error', 'Vui lòng đăng nhập để xem lịch sử mua hàng');
 		} else {
-
 			//category post
 			$category_post = CatePost::orderBy('cate_post_id', 'DESC')->get();
 
@@ -452,7 +458,6 @@ class OrderController extends Controller
 
 			$brand_product = DB::table('tbl_brand')->where('brand_status', '0')->orderby('brand_id', 'desc')->get();
 
-
 			//xem lich sử
 			$order_details = OrderDetails::with('product')->where('order_code', $order_code)->get();
 			$getorder = Order::where('order_code', $order_code)->first();
@@ -463,6 +468,9 @@ class OrderController extends Controller
 
 			$customer = Customer::where('customer_id', $customer_id)->first();
 			$shipping = Shipping::where('shipping_id', $shipping_id)->first();
+			$city_name = City::where('matp', $shipping->shipping_city)->first()->name_city;
+			$province_name = Province::where('maqh', $shipping->shipping_province)->first()->name_quanhuyen;
+			$wards_name = Wards::where('xaid', $shipping->shipping_wards)->first()->name_xaphuong;
 
 			$order_details_product = OrderDetails::with('product')->where('order_code', $order_code)->get();
 
@@ -479,7 +487,7 @@ class OrderController extends Controller
 				$coupon_number = 0;
 			}
 
-			return view('pages.history.view_history_order')->with('category', $cate_product)->with('brand', $brand_product)->with('meta_desc', $meta_desc)->with('meta_keywords', $meta_keywords)->with('meta_title', $meta_title)->with('url_canonical', $url_canonical)->with('slider', $slider)->with('category_post', $category_post)->with('order_details', $order_details)->with('customer', $customer)->with('shipping', $shipping)->with('coupon_condition', $coupon_condition)->with('coupon_number', $coupon_number)->with('getorder', $getorder)->with('order_status', $order_status)->with('order_code', $order_code); //1
+			return view('pages.history.view_history_order')->with('category', $cate_product)->with('brand', $brand_product)->with('meta_desc', $meta_desc)->with('meta_keywords', $meta_keywords)->with('meta_title', $meta_title)->with('url_canonical', $url_canonical)->with('slider', $slider)->with('category_post', $category_post)->with('order_details', $order_details)->with('customer', $customer)->with('shipping', $shipping)->with('coupon_condition', $coupon_condition)->with('coupon_number', $coupon_number)->with('getorder', $getorder)->with('order_status', $order_status)->with('order_code', $order_code)->with('city_name', $city_name)->with('province_name', $province_name)->with('wards_name', $wards_name); //1
 		}
 	}
 }

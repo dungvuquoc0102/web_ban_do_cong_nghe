@@ -26,7 +26,6 @@
         <link href="{{asset('public/frontend/css/price-range.css')}}" rel="stylesheet">
 
         <link href="{{asset('public/frontend/css/animate.css')}}" rel="stylesheet">
-        <link href="{{asset('public/frontend/css/main.css')}}" rel="stylesheet">
         <link href="{{asset('public/frontend/css/responsive.css')}}" rel="stylesheet">
         <link href="{{asset('public/frontend/css/sweetalert.css')}}" rel="stylesheet">
         <link href="{{asset('public/frontend/css/lightgallery.min.css')}}" rel="stylesheet">
@@ -38,6 +37,8 @@
 
         <!-- jquery  -->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+        <link href="{{asset('public/frontend/css/main.css')}}" rel="stylesheet">
 
         <!-- Share fb  -->
         <meta property="og:url" content="{{$url_canonical}}" />
@@ -965,7 +966,7 @@
 
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#imageGallery').lightSlider({
+                var slider = $('#imageGallery').lightSlider({
 
                     gallery: true,
                     item: 1,
@@ -978,8 +979,15 @@
                         el.lightGallery({
                             selector: '#imageGallery .lslide'
                         });
-                    }
+                    },
+                    controls: true
 
+                });
+                $('#goToPrevSlide').on('click', function () {
+                    slider.goToPrevSlide();
+                });
+                $('#goToNextSlide').on('click', function () {
+                    slider.goToNextSlide();
                 });
             });
         </script>
@@ -1052,11 +1060,13 @@
                 $('.send_order').click(function() {
                     var shipping_email = $('.shipping_email').val();
                     var shipping_name = $('.shipping_name').val();
+                    var shipping_city = $('.city').val();
+                    var shipping_province = $('.province').val();
+                    var shipping_wards = $('.wards').val();
                     var shipping_address = $('.shipping_address').val();
                     var shipping_phone = $('.shipping_phone').val();
                     var shipping_notes = $('.shipping_notes').val();
                     var shipping_method = $('.payment_select').val();
-
 
                     var order_fee = $('.order_fee').val();
                     var order_coupon = $('.order_coupon').val();
@@ -1097,6 +1107,9 @@
                                     data: {
                                         shipping_email: shipping_email,
                                         shipping_name: shipping_name,
+                                        shipping_city: shipping_city,
+                                        shipping_province: shipping_province,
+                                        shipping_wards: shipping_wards,
                                         shipping_address: shipping_address,
                                         shipping_phone: shipping_phone,
                                         shipping_notes: shipping_notes,
@@ -1470,9 +1483,33 @@
 
                     if (action == 'city') {
                         result = 'province';
-                    } else {
+                        console.log("city");
+
+                    } else if (action == 'province') {
                         result = 'wards';
-                    }
+                        console.log("province");
+                    } else {
+                        console.log("hello2222");
+                        var matp = $('.city').val();
+                        var maqh = $('.province').val();
+                        var xaid = $('.wards').val();
+                        $.ajax({
+                            url: "{{url('/calculate-fee')}}",
+                            method: 'POST',
+                            data: {
+                                matp: matp,
+                                maqh: maqh,
+                                xaid: xaid,
+                                _token: _token
+                            },
+                            success: function(data) {
+                                $('#fee_checkout').html(data);
+                                $('#total_checkout').load(document.URL +  ' #total_checkout');
+                                $('.order_fee').load(document.URL +  '.order_fee');
+                                // location.reload();
+                            }
+                        });
+                    };
                     $.ajax({
                         url: "{{url('/select-delivery-home')}}",
                         method: 'POST',

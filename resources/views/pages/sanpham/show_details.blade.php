@@ -44,7 +44,8 @@
 
 
 		</ul>
-
+		<button style="position: absolute; top: 35%; left: 25px;" type="button" id="goToPrevSlide">Prev</button>
+		<button style="position: absolute; top: 35%; right: 25px;" type="button" id="goToNextSlide">Next</button>
 	</div>
 	<div class="col-sm-7">
 

@@ -37,7 +37,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <link rel="stylesheet" href="{{asset('public/backend/css/bootstrap-tagsinput.css')}}" type="text/css" />
 
+    <!-- jQuery Database CSS -->
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" type="text/css" />
+    <!-- Datatables Select CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
+
+    <!-- jQuery CDN -->
+    <!-- <script src="{{asset('public/backend/js/jquery2.0.3.min.js')}}"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script> -->
+    <!-- jQuery Datatables JS -->
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script> -->
+    <!-- Datatables JS -->
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script> -->
+    <!-- Datatables Bootstrap JS -->
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script> -->
+    <!-- Bootstrap datepicker JS -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script> -->
+    <!-- Datatables Select JS -->
+    <!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script> -->
+
+
 
     <link rel="icon" href="{{asset('public/frontend/images/logo_icon.png')}}" type="image/gif" sizes="32x32">
     <!-- calendar -->
@@ -54,6 +73,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
     <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -401,10 +422,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             });
         })
     </script>
+
     <!-----------------List đối tác-------------------->
     <script type="text/javascript">
         list_doitac();
-
         function list_doitac() {
 
             $.ajax({
@@ -416,7 +437,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             });
         }
         $('.add-doitac').click(function() {
-
             var name = $('#name_doitac').val();
             var link = $('#link_doitac').val();
             var image = $('#image_doitac')[0].files[0];
@@ -705,9 +725,44 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         });
     </script>
+    
     <script type="text/javascript">
-        $('#myTable').DataTable();
+        // $(document).ready(function() {  
+            // console.log("jquery");
+            var DT4 = $('#myTable').DataTable({
+                columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: 0,
+                }]
+                // select: {
+                //     style: 'multi',
+                //     selector: 'td:first-child'
+                // }
+                // order: [
+                //     [1, 'asc']
+                // ],
+                // "language": {
+                //     "info": "Showing _START_ to _END_ of _TOTAL_ Projects",
+                //     "infoEmpty": "Showing 0 to 0 of 0 Projects",
+                //     "infoFiltered": "(filtered from _MAX_ total Projects)"
+                // },
+                // "pagingType": "numbers",
+                // dom: 'rtip'
+            });
+            $(".selectAll").on("click", function (e) {
+            if ($(this).is(":checked")) {
+                DT4.rows().select();
+                $('.delAllProducts').attr('style', 'margin: 5px; visibility: visible;');
+            } else {
+                DT4.rows().deselect();
+                $('.delAllProducts').attr('style', 'margin: 5px; visibility: hidden;');
+            }
+            });
+        // });
+        
     </script>
+
     <script type="text/javascript">
         $(document).on('click', '#btn-add-video', function() {
             var video_title = $('.video_title').val();

@@ -4,9 +4,8 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      Thông tin đăng nhập
+      Thông tin khách hàng
     </div>
-
     <div class="table-responsive">
       <?php
       $message = Session()->get('message');
@@ -18,40 +17,29 @@
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
-
-            <th>Tên khách hàng</th>
+            <th>Tên</th>
             <th>Số điện thoại</th>
             <th>Email</th>
-
-
             <th style="width:30px;"></th>
           </tr>
         </thead>
         <tbody>
-
           <tr>
             <td>{{$customer->customer_name}}</td>
             <td>{{$customer->customer_phone}}</td>
             <td>{{$customer->customer_email}}</td>
-
           </tr>
-
         </tbody>
       </table>
-
     </div>
-
   </div>
 </div>
 <br>
 <div class="table-agile-info">
-
   <div class="panel panel-default">
     <div class="panel-heading">
-      Thông tin vận chuyển hàng
+      Thông tin vận chuyển
     </div>
-
-
     <div class="table-responsive">
       <?php
       $message = Session()->get('message');
@@ -63,32 +51,24 @@
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
-
-            <th>Tên người vận chuyển</th>
+            <th>Tên người nhận</th>
             <th>Địa chỉ</th>
             <th>Số điện thoại</th>
             <th>Email</th>
             <th>Ghi chú</th>
             <th>Hình thức thanh toán</th>
-
-
-            <th style="width:30px;"></th>
+            <!-- <th style="width:30px;"></th> -->
           </tr>
         </thead>
         <tbody>
-
           <tr>
-
             <td>{{$shipping->shipping_name}}</td>
-            <td>{{$shipping->shipping_address}}</td>
+            <td>{{$shipping->shipping_address}}, {{$wards_name}}, {{$province_name}}, {{$city_name}}</td>
             <td>{{$shipping->shipping_phone}}</td>
             <td>{{$shipping->shipping_email}}</td>
             <td>{{$shipping->shipping_notes}}</td>
             <td>@if($shipping->shipping_method==0) Chuyển khoản @else Tiền mặt @endif</td>
-
-
           </tr>
-
         </tbody>
       </table>
 
@@ -102,7 +82,7 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      Liệt kê chi tiết đơn hàng
+      Chi tiết đơn hàng
     </div>
 
     <div class="table-responsive">
@@ -117,11 +97,12 @@
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
-            <th style="width:20px;">
+            <!-- <th style="width:20px;">
               <label class="i-checks m-b-none">
                 <input type="checkbox"><i></i>
               </label>
-            </th>
+            </th> -->
+            <th>STT</th>
             <th>Tên sản phẩm</th>
             <th>Số lượng kho còn</th>
             <th>Mã giảm giá</th>
@@ -160,7 +141,7 @@
             <td>{{number_format($details->product_feeship ,0,',','.')}}đ</td>
             <td>
 
-              <input type="number" min="1" {{$order_status==2 ? 'disabled' : ''}} class="order_qty_{{$details->product_id}}" value="{{$details->product_sales_quantity}}" name="product_sales_quantity">
+              <input style="width: 50px;" type="number" min="1" {{$order_status==2 ? 'disabled' : ''}} class="order_qty_{{$details->product_id}}" value="{{$details->product_sales_quantity}}" name="product_sales_quantity">
 
               <input type="hidden" name="order_qty_storage" class="order_qty_storage_{{$details->product_id}}" value="{{$details->product->product_quantity}}">
 
@@ -188,20 +169,19 @@
               @if($coupon_condition==1)
               @php
               $total_after_coupon = ($total*$coupon_number)/100;
-              echo 'Tổng giảm :'.number_format($total_after_coupon,0,',','.').'</br>';
+              echo 'Tổng giảm: '.number_format($total_after_coupon,0,',','.').'đ'.'</br>';
               $total_coupon = $total + $details->product_feeship - $total_after_coupon ;
               @endphp
               @else
               @php
-              echo 'Tổng giảm :'.number_format($coupon_number,0,',','.').'k'.'</br>';
+              echo 'Tổng giảm: '.number_format($coupon_number,0,',','.').'đ'.'</br>';
               $total_coupon = $total + $details->product_feeship - $coupon_number ;
 
               @endphp
               @endif
 
-              Phí ship : {{number_format($details->product_feeship,0,',','.')}}đ</br>
+              Phí ship: {{number_format($details->product_feeship,0,',','.')}}đ</br>
               Thanh toán: {{number_format($total_coupon,0,',','.')}}đ
-
             </td>
           </tr>
           <tr>
@@ -211,10 +191,8 @@
               <form>
                 @csrf
                 <select class="form-control order_details">
-
                   <option id="{{$or->order_id}}" selected value="1">Chưa xử lý</option>
-                  <option id="{{$or->order_id}}" value="2">Đã xử lý-Đã giao hàng</option>
-
+                  <option id="{{$or->order_id}}" value="2">Đã xử lý - Đã giao hàng</option>
                 </select>
               </form>
 

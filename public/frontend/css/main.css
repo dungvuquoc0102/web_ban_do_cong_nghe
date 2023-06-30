@@ -1200,6 +1200,14 @@ h2.title {
     overflow: hidden;
 }
 
+.lSAction > .lSPrev {
+    display: none;
+}
+
+.lSAction > .lSNext {
+    display: none;
+}
+
 #similar-product {
     margin-top: 40px;
 }

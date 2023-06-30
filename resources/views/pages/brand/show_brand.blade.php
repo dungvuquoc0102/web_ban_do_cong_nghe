@@ -39,11 +39,11 @@
                             <input type="hidden" value="1" class="cart_product_qty_{{$product->product_id}}">
 
                             <a href="{{URL::to('/chi-tiet/'.$product->product_slug)}}">
-                                <img src="{{URL::to('public/uploads/product/'.$product->product_image)}}" alt="" />
+                                <div class="cover-img">
+                                    <img src="{{URL::to('public/uploads/product/'.$product->product_image)}}" alt="" />
+                                </div>    
                                 <h2>{{number_format($product->product_price,0,',','.').' '.'VNĐ'}}</h2>
                                 <p>{{$product->product_name}}</p>
-
-
                             </a>
                             <input type="button" value="Thêm giỏ hàng" class="btn btn-default add-to-cart" data-id_product="{{$product->product_id}}" name="add-to-cart">
                         </form>

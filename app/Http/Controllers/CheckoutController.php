@@ -109,7 +109,7 @@ class CheckoutController extends Controller
     } else {
       $coupon_mail = 'không có sử dụng';
     }
-    //get van chuyen
+    //get shipping
     $shipping = new Shipping();
     $shipping->shipping_name = $data['shipping_name'];
     $shipping->shipping_email = $data['shipping_email'];
@@ -117,11 +117,14 @@ class CheckoutController extends Controller
     $shipping->shipping_address = $data['shipping_address'];
     $shipping->shipping_notes = $data['shipping_notes'];
     $shipping->shipping_method = $data['shipping_method'];
+    $shipping->shipping_city = $data['shipping_city'];
+    $shipping->shipping_province = $data['shipping_province'];
+    $shipping->shipping_wards = $data['shipping_wards'];
     $shipping->save();
     $shipping_id = $shipping->shipping_id;
 
+    //checkout_code for order
     $checkout_code = substr(md5(microtime()), rand(0, 26), 5);
-
     //get order
     $order = new Order();
     $order->customer_id = Session()->get('customer_id');
@@ -146,7 +149,11 @@ class CheckoutController extends Controller
         $order_details->product_price = $cart['product_price'];
         $order_details->product_sales_quantity = $cart['product_qty'];
         $order_details->product_coupon =  $data['order_coupon'];
-        $order_details->product_feeship = $data['order_fee'];
+        if(Session()->get('fee')) {
+          $order_details->product_feeship = Session()->get('fee');
+        } else {
+          $order_details->product_feeship = $data['order_fee'];
+        }
         $order_details->save();
       }
     }
@@ -166,13 +173,13 @@ class CheckoutController extends Controller
         );
       }
     }
-    //lay shipping
+    //lay shipping for send mail
     if (Session()->get('fee') == true) {
       $fee = Session()->get('fee') . 'k';
     } else {
       $fee = '30k';
     }
-
+    //make shipping_array for send mail
     $shipping_array = array(
       'fee' =>  $fee,
       'customer_name' => $customer->customer_name,
@@ -181,7 +188,10 @@ class CheckoutController extends Controller
       'shipping_phone' => $data['shipping_phone'],
       'shipping_address' => $data['shipping_address'],
       'shipping_notes' => $data['shipping_notes'],
-      'shipping_method' => $data['shipping_method']
+      'shipping_method' => $data['shipping_method'],
+      'shipping_city' => $data['shipping_city'],
+      'shipping_province' => $data['shipping_province'],
+      'shipping_wards' => $data['shipping_wards']
 
     );
     //lay ma giam gia, lay coupon code
@@ -252,6 +262,7 @@ class CheckoutController extends Controller
           Session()->put('fee', $feeship_number);
           Session()->save();
     }
+    return number_format($feeship_number, 0, ',', '.') ;
     // echo $feeship_number . 'đ <a class="cart_quantity_delete" href="'. url('/del-fee') . '"><i class="fa fa-times"></i></a>';
   }
 

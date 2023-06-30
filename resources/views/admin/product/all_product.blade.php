@@ -5,6 +5,7 @@
     <div class="panel-heading">
       Liệt kê sản phẩm
     </div>
+    <a href="{{ url('/delete-all-product') }}"><button style="margin: 5px; visibility: hidden;" type="button" class="btn btn-danger delAllProducts">Xóa tất cả</button></a>
     <div class="table-responsive">
       <?php
       $message = Session()->get('message');
@@ -16,11 +17,11 @@
       <table class="table table-striped b-t b-light" id="myTable">
         <thead>
           <tr>
-            <!-- <th style="width:20px;">
-              <label class="i-checks m-b-none">
-                <input type="checkbox"><i></i>
-              </label>
-            </th> -->
+            <th style="width:20px;">
+              <!-- <label class="i-checks m-b-none"> -->
+                <input type="checkbox" class="selectAll" name="selectAll" value="all"><i></i>
+              <!-- </label> -->
+            </th>
             <th></th>
             <th>Tên sản phẩm</th>
             <th>Thư viện ảnh</th>
@@ -38,6 +39,7 @@
           @foreach($all_product as $key => $pro)
           <tr>
             <!-- <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td> -->
+            <td></td>
             <td><img src="public/uploads/product/{{ $pro->product_image }}" height="50" width="50"></td>
             <td style="font-weight: bold; color: #000;">{{ $pro->product_name }}</td>
             <td><a href="{{url('/add-gallery/'.$pro->product_id)}}">Sửa ảnh</a></td>

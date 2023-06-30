@@ -325,8 +325,8 @@ class ProductController extends Controller
 
             //unlink old image
             if($product->product_image) {
-                unlink($path . $product->product_image);
-                unlink($path_gallery . $product->product_image);
+                // unlink($path . $product->product_image);
+                // unlink($path_gallery . $product->product_image);
             }
             // DB::table('tbl_product')->where('product_id', $product_id)->update($data);
             // Session()->put('message', 'Cập nhật sản phẩm thành công');
@@ -373,6 +373,14 @@ class ProductController extends Controller
         $this->AuthLogin();
         DB::table('tbl_product')->where('product_id', $product_id)->delete();
         Session()->put('message', 'Xóa sản phẩm thành công');
+        return Redirect::to('all-product');
+    }
+
+    public function delete_all_product()
+    {
+        $this->AuthLogin();
+        DB::table('tbl_product')->where('product_id', '%%')->delete();
+        Session()->put('message', 'Xóa tất cả sản phẩm thành công');
         return Redirect::to('all-product');
     }
     //End Admin Page

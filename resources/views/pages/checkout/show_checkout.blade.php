@@ -15,7 +15,7 @@
 						margin: 5px 0;
 					}
 				</style>
-				<div class="col-md-12 clearfix" style="margin-bottom: 30px;">
+				<div class="col-md-4 clearfix" style="margin-bottom: 30px;">
 					@if(\Session::has('error'))
 					<div class="alert alert-danger">{{ \Session::get('error') }}</div>
 					{{ \Session::forget('error') }}
@@ -26,27 +26,83 @@
 					@endif
 					<div class="bill-to">
 						<p style="padding: 0 15px;">Điền thông tin gửi hàng</p>
-						<div class="col-md-6 form-style">
+						<div class="col-md-12 form-style">
 							<form method="POST">
 								@csrf
-								<input type="email" name="shipping_email" class="shipping_email form-control" placeholder="Điền email">
-								<input type="text" name="shipping_name" class="shipping_name form-control" placeholder="Họ và tên người gửi">
-								<input type="text" name="shipping_address" class="shipping_address form-control" placeholder="Địa chỉ gửi hàng">
-								<input type="phone" style="margin: 5px 0;" name="shipping_phone" class="shipping_phone form-control" placeholder="Số điện thoại">
-								<textarea name="shipping_notes" class="shipping_notes form-control" placeholder="Ghi chú đơn hàng của bạn" rows="5"></textarea>
-
+								<label for="exampleInputPassword1">Thông tin khách hàng</label>
+								<input style="margin-top: 0;" type="text" name="shipping_name" class="shipping_name form-control" placeholder="Họ và tên (bắt buộc)">
+								<input type="phone" style="margin-top: 15px;" name="shipping_phone" class="shipping_phone form-control" placeholder="Số điện thoại (bắt buộc)">
+								<input type="email" style="margin: 15px 0;" name="shipping_email" class="shipping_email form-control" placeholder="Điền email">
+								<label for="exampleInputPassword1">Địa chỉ nhận hàng</label>
+								<form>
+									@csrf
+									<div class="form-group">
+										<!-- <label for="exampleInputPassword1">Chọn thành phố</label> -->
+										<select name="city" id="city" class="form-control input-sm m-bot15 choose city">
+											<option value="">Thành phố / Tỉnh</option>
+											@if(Session::get('fee') && Session::get('fee_address'))
+												@foreach($city as $key => $ci)
+													@if(Session::get('fee_matp') == $ci->matp)
+												<option selected value="{{$ci->matp}}">{{$ci->name_city}}</option>
+												@else
+												<option value="{{$ci->matp}}">{{$ci->name_city}}</option>
+												@endif
+												@endforeach
+											@else
+												@foreach($city as $key => $ci)
+												<option value="{{$ci->matp}}">{{$ci->name_city}}</option>
+												@endforeach
+											@endif
+										</select>
+									</div>
+									<div class="form-group">
+										<!-- <label for="exampleInputPassword1">Chọn quận huyện</label> -->
+										<select name="province" id="province" class="form-control input-sm m-bot15 province choose">
+										@if(Session::get('fee') && Session::get('fee_address'))
+											@foreach($province as $key => $pr)
+													@if(Session::get('fee_maqh') == $pr->maqh)
+												<option selected value="{{$pr->maqh}}">{{$pr->name_quanhuyen}}</option>
+												@else
+												<option value="{{$pr->maqh}}">{{$pr->name_quanhuyen}}</option>
+												@endif
+												@endforeach
+										@else
+										<option value="">Quận / Huyện</option>
+										@endif
+										</select>
+									</div>
+									<div class="form-group">
+										<!-- <label for="exampleInputPassword1">Chọn xã phường</label> -->
+										<select name="wards" id="wards" class="form-control input-sm m-bot15 wards checkout choose">
+										@if(Session::get('fee') && Session::get('fee_address'))
+										@foreach($wards as $key => $wa)
+													@if(Session::get('fee_xaid') == $wa->xaid)
+												<option selected value="{{$wa->xaid}}">{{$wa->name_xaphuong}}</option>
+												@else
+												<option value="{{$wa->xaid}}">{{$wa->name_xaphuong}}</option>
+												@endif
+												@endforeach
+										@else 
+										<option value="">Phường / Xã</option>
+										@endif
+										</select>
+									</div>
+									<!-- <input type="button" value="Tính phí vận chuyển" name="calculate_order" class="btn btn-primary btn-sm calculate_delivery"> -->
+								</form>
+								<input style="margin-bottom: 15px;" type="text" name="shipping_address" class="shipping_address form-control" placeholder="Số nhà, tên đường">
+								<label for="exampleInputPassword1">Ghi chú đơn hàng</label>
+								<textarea style="margin-bottom: 15px;" name="shipping_notes" class="shipping_notes form-control" placeholder="Ghi chú" rows="1"></textarea>
 								@if(Session()->get('fee'))
-								<input type="hidden" name="order_fee" class="order_fee" value="{{Session()->get('fee')}}">
+									<input type="hidden" name="order_fee" class="order_fee" value="{{Session()->get('fee')}}">
 								@else
-								<input type="hidden" name="order_fee" class="order_fee" value="30000">
+									<input type="hidden" name="order_fee" class="order_fee" value="30000">
 								@endif
-
 								@if(Session()->get('coupon'))
-								@foreach(Session()->get('coupon') as $key => $cou)
-								<input type="hidden" name="order_coupon" class="order_coupon" value="{{$cou['coupon_code']}}">
-								@endforeach
+									@foreach(Session()->get('coupon') as $key => $cou)
+										<input type="hidden" name="order_coupon" class="order_coupon" value="{{$cou['coupon_code']}}">
+									@endforeach
 								@else
-								<input type="hidden" name="order_coupon" class="order_coupon" value="no">
+									<input type="hidden" name="order_coupon" class="order_coupon" value="no">
 								@endif
 								<div class="">
 									<div class="form-group">
@@ -54,15 +110,14 @@
 										<select name="payment_select" class="form-control input-sm m-bot15 payment_select">
 											<option value="1">Thanh toán khi nhận hàng</option>
 											<option value="2">Thanh toán qua Paypal</option>
-											<option value="0">Thanh toán Chuyển khoản</option>
-
+											<option value="0">Thanh toán chuyển khoản</option>
 										</select>
 									</div>
 								</div>
 								<input type="button" value="Đặt hàng" name="send_order" class="btn btn-primary btn-sm send_order">
 							</form>
 						</div>
-						<div class="col-md-6">
+						<!-- <div class="col-md-6">
 							<form>
 								@csrf
 								<div class="form-group">
@@ -119,10 +174,10 @@
 								</div>
 								<input type="button" value="Tính phí vận chuyển" name="calculate_order" class="btn btn-primary btn-sm calculate_delivery">
 							</form>
-						</div>
+						</div> -->
 					</div>
 				</div>
-				<div class="col-sm-12 clearfix">
+				<div class="col-sm-8 clearfix">
 					@if(session()->has('message'))
 					<div class="alert alert-success">
 						{!! session()->get('message') !!}
@@ -302,8 +357,8 @@
 						<tr class="cart_menu">
 							<td class="image">Hình ảnh</td>
 							<td class="description">Tên sản phẩm</td>
-							<td class="description">Số lượng tồn</td>
-							<td class="price">Giá sản phẩm</td>
+							<td class="description">Kho</td>
+							<td class="price">Giá</td>
 							<td class="quantity">Số lượng</td>
 							<td class="total">Thành tiền</td>
 							<!-- <td>Thao tác</td> -->
@@ -326,7 +381,7 @@
 							</td>
 							<td class="cart_description">
 								<h4><a href=""></a></h4>
-								<p style="text-align: start;">{{$cart['product_name']}}</p>
+								<p style="text-align: start; text-wrap: wrap;">{{$cart['product_name']}}</p>
 							</td>
 							<td class="cart_description">
 								<h4><a href=""></a></h4>
@@ -337,7 +392,7 @@
 							</td>
 							<td class="cart_quantity">
 								<div class="cart_quantity_button" style="display: flex; align-items: center;">
-									<input readonly="true" style="width: 70px; height: 100%;" class="cart_qty_update_cart_ajax" type="number" min="1" data-session_id="{{$cart['session_id']}}" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}"  >
+									<input readonly="true" style="width: 30px; height: 100%; text-align: center;" class="cart_qty_update_cart_ajax" type="text" min="1" data-session_id="{{$cart['session_id']}}" name="cart_qty[{{$cart['session_id']}}]" value="{{$cart['product_qty']}}"  >
 									<!-- <input style="margin: 10px;" type="submit" value="Cập nhật" name="update_qty" class="check_out btn btn-default btn-sm"> -->
 								</div>
 							</td>
@@ -374,7 +429,7 @@
 				</form>
 					@if(Session::get('cart'))
 					<tr>
-						<td>
+						<!-- <td>
 							<form method="POST" action="{{url('/check-coupon')}}">
 								@csrf
 									<input type="text" class="form-control" name="coupon" placeholder="Nhập mã giảm giá"><br>
@@ -383,7 +438,7 @@
 							@if(Session::get('coupon'))
 								<a style="margin-left: 0; border-radius: 4px;" class="btn btn-default check_out" href="{{url('/unset-coupon')}}">Xóa mã khuyến mãi</a>
 							@endif
-                        </td>
+                        </td> -->
 						<td>
 							<li>Tổng tiền: <span>
 								@php
@@ -445,7 +500,7 @@
 								$total_last = 0;
 							}
 							@endphp
-							<li>Tổng thanh toán: {{number_format($total_last,0,',','.')}}đ</li>
+							<li id="">Tổng thanh toán: <span id="total_checkout">{{number_format($total_last,0,',','.')}}</span>đ</li>
 						</td>
 						<!-- <td>
 							@if(Session::get('customer_id'))

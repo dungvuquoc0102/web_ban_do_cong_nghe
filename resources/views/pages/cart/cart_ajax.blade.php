@@ -49,7 +49,7 @@
 							</td>
 							<td class="cart_description">
 								<h4><a href=""></a></h4>
-								<p style="text-align: start;">{{$cart['product_name']}}</p>
+								<p style="text-align: start; text-wrap: wrap;">{{$cart['product_name']}}</p>
 							</td>
 							<td class="cart_description">
 								<h4><a href=""></a></h4>
