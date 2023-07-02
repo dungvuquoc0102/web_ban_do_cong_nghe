@@ -114,7 +114,10 @@
 										</select>
 									</div>
 								</div>
+								@if(Session()->get('cart'))
 								<input type="button" value="Đặt hàng" name="send_order" class="btn btn-primary btn-sm send_order">
+								@else
+								@endif
 							</form>
 						</div>
 						<!-- <div class="col-md-6">

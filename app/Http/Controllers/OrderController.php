@@ -405,7 +405,8 @@ class OrderController extends Controller
 
 	public function manage_order()
 	{
-		$getorder = Order::orderby('order_id', 'DESC')->paginate(5);
+		// $getorder = Order::orderby('order_id', 'DESC')->paginate(5);
+		$getorder = Order::orderby('order_id', 'DESC')->get();
 		return view('admin.order.manage_order')->with(compact('getorder'));
 	}
 

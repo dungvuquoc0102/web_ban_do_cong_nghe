@@ -86,7 +86,7 @@
                             <div class="logo pull-left">
                                 <a href="{{URL::to('/trang-chu')}}">
                                     @foreach($contact_footer as $key => $logo)
-                                    <img style="height: 30px" src="{{('public/uploads/contact/' . $logo->info_logo)}}" alt="" />
+                                    <img style="height: 30px" src="{{url('public/uploads/contact') .'/'. $logo->info_logo}}" alt="" />
                                     @endforeach
                                 </a>
                             </div>
@@ -971,7 +971,7 @@
                     gallery: true,
                     item: 1,
                     loop: true,
-                    thumbItem: 3,
+                    thumbItem: 4,
                     slideMargin: 0,
                     enableDrag: false,
                     currentPagerPosition: 'left',
@@ -1318,7 +1318,6 @@
                     data: {
                         _token: _token
                     },
-
                     success: function() {
                         $('.show_quick_cart_alert').append('<p class="text text-success">Xóa sản phẩm trong giỏ hàng thành công.</p>');
                         setTimeout(function() {

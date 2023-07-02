@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use Session;
 use App\Slider;
 use App\Http\Requests;
@@ -46,8 +47,12 @@ class PostController extends Controller
         $post->cate_post_id = $data['cate_post_id'];
         $post->post_status = $data['post_status'];
 
-        $get_image = $request->file('post_image');
+        //time
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y H:i:s');
+        $post->last_update_at = $now;
 
+        //image
+        $get_image = $request->file('post_image');
         if ($get_image) {
             $get_name_image = $get_image->getClientOriginalName(); //lay ten của hình ảnh
             $name_image = current(explode('.', $get_name_image));
@@ -69,9 +74,8 @@ class PostController extends Controller
     public function all_post()
     {
         $this->AuthLogin();
-
-        $all_post = Post::with('cate_post')->orderBy('cate_post_id')->get();
-
+        // $all_post = Post::with('cate_post')->orderBy('cate_post_id')->get();
+        $all_post = Post::with('cate_post')->orderBy('post_id', 'desc')->get();
         return view('admin.post.list_post')->with(compact('all_post', $all_post));
     }
     public function delete_post($post_id)
@@ -112,8 +116,13 @@ class PostController extends Controller
         $post->cate_post_id = $data['cate_post_id'];
         $post->post_status = $data['post_status'];
 
-        $get_image = $request->file('post_image');
+        //time
+        // Carbon::setLocale('vi');
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->format('d/m/Y, H:i');
+        $post->last_update_at = $now;
 
+        //image
+        $get_image = $request->file('post_image');
         if ($get_image) {
             //xoa anh cu
             $post_image_old = $post->post_image;
@@ -129,7 +138,10 @@ class PostController extends Controller
 
         $post->save();
         Session()->put('message', 'Cập nhật bài viết thành công');
-        return redirect()->back();
+        // return redirect()->back();
+        $all_post = Post::with('cate_post')->orderBy('cate_post_id')->get();
+        return Redirect::to('all-post')->with(compact('all_post'));
+
     }
     public function danh_muc_bai_viet(Request $request, $post_slug)
     {
@@ -139,8 +151,8 @@ class PostController extends Controller
         $slider = Slider::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
 
 
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderby('category_id', 'desc')->get();
-        $brand_product = DB::table('tbl_brand')->where('brand_status', '0')->orderby('brand_id', 'desc')->get();
+        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderby('category_id', 'desc')->get();
+        $brand_product = DB::table('tbl_brand')->where('brand_status', '1')->orderby('brand_id', 'desc')->get();
 
         $catepost = CatePost::where('cate_post_slug', $post_slug)->take(1)->get();
 
@@ -155,22 +167,20 @@ class PostController extends Controller
             //--seo
         }
 
-        $post_cate = Post::with('cate_post')->where('post_status', 0)->where('cate_post_id', $cate_id)->paginate(5);
+        $post_cate = Post::with('cate_post')->where('post_status', 0)->where('cate_post_id', $cate_id)->paginate(4);
 
         return view('pages.baiviet.danhmucbaiviet')->with('category', $cate_product)->with('brand', $brand_product)->with('meta_desc', $meta_desc)->with('meta_keywords', $meta_keywords)->with('meta_title', $meta_title)->with('url_canonical', $url_canonical)->with('slider', $slider)->with('post_cate', $post_cate)->with('category_post', $category_post)->with('share_image', $share_image);
     }
     public function bai_viet(Request $request, $post_slug)
     {
-
         //category post
         $category_post = CatePost::orderBy('cate_post_id', 'DESC')->get();
+
         //slide
         $slider = Slider::orderBy('slider_id', 'DESC')->where('slider_status', '1')->take(4)->get();
 
-
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderby('category_id', 'desc')->get();
-        $brand_product = DB::table('tbl_brand')->where('brand_status', '0')->orderby('brand_id', 'desc')->get();
-
+        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderby('category_id', 'desc')->get();
+        $brand_product = DB::table('tbl_brand')->where('brand_status', '1')->orderby('brand_id', 'desc')->get();
 
         $post_by_id = Post::with('cate_post')->where('post_status', 0)->where('post_slug', $post_slug)->take(1)->get();
 

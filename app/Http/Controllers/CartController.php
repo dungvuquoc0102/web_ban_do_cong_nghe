@@ -321,24 +321,25 @@ class CartController extends Controller
         return $data;
     }
 
-    public function delete_product($product_id)
-    {
+    public function delete_product($product_id) {
         $cart = Session()->get('cart');
         // echo '<pre>';
         // print_r($cart);
         // echo '</pre>';
-        if ($cart == true) {
+        if ($cart) {
             foreach ($cart as $key => $val) {
                 if ($val['product_id'] == $product_id) {
                     unset($cart[$key]);
                 }
             }
             Session()->put('cart', $cart);
-            return redirect()->back()->with('message', 'Xóa sản phẩm thành công');
+            Session()->save();
+            return redirect()->back()->with('message', 'Xóa sản phẩm thành công' .  $product_id);
         } else {
             return redirect()->back()->with('message', 'Xóa sản phẩm thất bại');
         }
     }
+
     public function cart_session()
     {
 

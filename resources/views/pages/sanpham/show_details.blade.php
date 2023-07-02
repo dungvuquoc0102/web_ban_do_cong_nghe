@@ -10,14 +10,40 @@
 <div class="product-details">
 	<!--product-details-->
 	<style type="text/css">
-		.lSSlideOuter .lSPager.lSGallery img {
-			display: block;
-			height: 140px;
-			max-width: 100%;
+		.lSSlideOuter .lSPager.lSGallery li {
+			padding: 5px;
 		}
 
-		li.active {
-			border: 2px solid #FE980F;
+		.lSSlideOuter .lSPager.lSGallery a {
+			display: flex;
+			position: relative;
+			align-items: center;
+		}
+
+		.lSSlideOuter .lSPager.lSGallery a:after {
+			content: "";
+			display: block;
+			padding-bottom: 100%;
+		}
+
+		.lSSlideOuter .lSPager.lSGallery img {
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			object-fit: cover;
+		}
+
+		.lightSlider.lSSlide li {
+			padding: 5px;
+		}
+
+		.lightSlider.lSSlide li.active {
+			border: 1px solid #d1d5db;
+		}
+
+		.lSPager.lSGallery li.active {
+			border: 1px solid #FE980F;
+			border-radius: 0 !important;
 		}
 	</style>
 	<nav aria-label="breadcrumb">
@@ -44,8 +70,8 @@
 
 
 		</ul>
-		<button style="position: absolute; top: 35%; left: 25px;" type="button" id="goToPrevSlide">Prev</button>
-		<button style="position: absolute; top: 35%; right: 25px;" type="button" id="goToNextSlide">Next</button>
+		<div style="position: absolute; top: 35%; left: 25px; padding: 5px; font-size: 25px; cursor: pointer;" type="button" id="goToPrevSlide"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
+		<div style="position: absolute; top: 35%; right: 25px; padding: 5px; font-size: 25px; cursor: pointer;" type="button" id="goToNextSlide"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
 	</div>
 	<div class="col-sm-7">
 

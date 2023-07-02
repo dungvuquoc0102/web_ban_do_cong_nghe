@@ -29,6 +29,13 @@
   <h2></h2>
   <h2 style="margin:0;position: inherit;font-size: 22px" class="title text-center">{{$meta_title}}</h2>
   <div class="fb-share-button" data-href="{{$url_canonical}}" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{$url_canonical}}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
+  @foreach($post_by_id as $key => $p)
+  
+  @if($p->last_update_at)
+  <div class="last-update-at">{{ $p->last_update_at }} (GMT+7)</div>
+  @else
+  @endif
+  @endforeach
 
   <div class="product-image-wrapper" style="border: none;">
     @foreach($post_by_id as $key => $p)
@@ -58,9 +65,21 @@
     color: #FE980F;
   }
 </style>
-<ul class="post_relate">
-  @foreach($related as $key => $post_relate)
-  <li><a href="{{url('/bai-viet/'.$post_relate->post_slug)}}">{{$post_relate->post_title}}</a></li>
+<ul class="row post_relate">
+  @foreach($related as $key => $p)
+  <div class="col-xs-12 col-sm-6">
+  <div class="single-products" style="margin:10px 0;padding: 5px">
+          <div class="text-center">
+                  <img style="float:left;width:30%;padding: 5px;height: 150px; object-fit: cover;" src="{{asset('public/uploads/post/'.$p->post_image)}}" alt="{{$p->post_slug}}" />
+                  <h4 style="color:#000;padding: 5px;">{{$p->post_title}}</h4>
+                  <p >{!!$p->post_desc!!}</p>
+          </div>
+          <div class="text-right">
+                  <a  href="{{url('/bai-viet/'.$p->post_slug)}}" class="btn btn-default btn-sm">Xem bài viết</a>
+          </div>
+  </div>
+  <div class="clearfix"></div>
+  </div>
   @endforeach
 
 </ul>

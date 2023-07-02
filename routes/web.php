@@ -31,7 +31,7 @@ Route::get('/show_quick_cart', 'CartController@show_quick_cart');
 Route::get('/show_quick_cart_2', 'CartController@show_quick_cart_2');
 Route::get('/trang-chu', 'HomeController@index');
 Route::get('/404', 'HomeController@error_page');
-Route::post('/tim-kiem', 'HomeController@search');
+// Route::post('/tim-kiem', 'HomeController@search');
 Route::post('/autocomplete-ajax', 'HomeController@autocomplete_ajax');
 Route::post('/tim-kiem', 'HomeController@search');
 

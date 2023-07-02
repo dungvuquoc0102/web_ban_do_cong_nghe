@@ -37,13 +37,13 @@
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
             <td>{{ $post->post_title }}</td>
-            <td><img src="{{asset('public/uploads/post/'.$post->post_image)}}" height="100" width="100"></td>
+            <td><img src="{{asset('public/uploads/post/'.$post->post_image)}}" height="100" width="100" style="object-fit: cover;"></td>
             <td>{{ $post->post_slug }}</td>
             <td>{!! $post->post_desc !!}</td>
             <td>{{ $post->post_meta_keywords }}</td>
             <td>{{ $post->cate_post->cate_post_name }}</td>
             <td>
-              @if($post->post_status==0)
+              @if($post->post_status == 0)
               Hiển thị
               @else
               Ẩn

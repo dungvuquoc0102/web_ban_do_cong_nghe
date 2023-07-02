@@ -14,7 +14,7 @@
         Session()->put('message', null);
       }
       ?>
-      <table class="table table-striped b-t b-light" id="myTable">
+      <table class="table table-striped b-t b-light" id="myTable1">
         <thead>
           <tr>
             <th style="width:20px;">
@@ -40,6 +40,7 @@
           <tr>
             <!-- <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td> -->
             <td></td>
+
             <td><img src="public/uploads/product/{{ $pro->product_image }}" height="50" width="50"></td>
             <td style="font-weight: bold; color: #000;">{{ $pro->product_name }}</td>
             <td><a href="{{url('/add-gallery/'.$pro->product_id)}}">Sửa ảnh</a></td>
