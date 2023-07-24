@@ -153,7 +153,7 @@
 			<li><a href="#details" data-toggle="tab">Mô tả</a></li>
 			<li><a href="#companyprofile" data-toggle="tab">Chi tiết sản phẩm</a></li>
 
-			<li class="active"><a href="#reviews" data-toggle="tab">Đánh giá</a></li>
+			<li class="active"><a href="#reviews" data-toggle="tab">Bình luận</a></li>
 		</ul>
 	</div>
 	<div class="col-sm-12 tab-content" style="padding: 0 30px;">

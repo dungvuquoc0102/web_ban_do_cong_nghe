@@ -57,7 +57,8 @@
 					</ul>
 						
 					
-				</div><!--/login form-->
+				</div>
+				<!--/login form-->
 			</div>
 			<div class="col-sm-1">
 				<h2 class="or">Hoặc</h2>

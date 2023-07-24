@@ -1157,7 +1157,6 @@
                     method: "GET",
                     success: function(data) {
                         $('.giohang-hover').html(data);
-
                     }
                 });
             }
@@ -1290,7 +1289,7 @@
                             for (const [key, item] of Object.entries(data['cart'])) {
                                 var subtotal = item['product_price'] * item['product_qty'];
                                 total += subtotal;
-                                output += '<tr><td class=""><img src="' + data['url'] + '/public/uploads/product/' + item['product_image'] + '" width="20%" alt="' + item['product_name'] + '" /></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_name'] + '</p></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_quantity'] + '</p></td><td class="cart_price"><p>' + new Intl.NumberFormat({ maximumSignificantDigits: 3 }).format(item['product_price']) + 'VNĐ</p></td><td class="cart_quantity"><div class="cart_quantity_button"><input class="cart_qty_update" type="number" data-session_id="' + item['session_id'] + '" min="1" value="' + item['product_qty'] + '" ></div></td><td class="cart_total"><p class="cart_total_price">' + new Intl.NumberFormat({ maximumSignificantDigits: 3 }).format(item['product_price'] * item['product_qty']) + 'VNĐ</p></td><td class="cart_delete"><a class="cart_quantity_delete" style="cursor:pointer" id="' + item['session_id'] + '" onclick="DeleteItemCart(this.id)"><i class="fa fa-times"></i></a></td></tr>';
+                                output += '<tr><td class=""><img src="' + data['url'] + '/public/uploads/product/' + item['product_image'] + '" width="20%" alt="' + item['product_name'] + '" /></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_name'] + '</p></td><td class="cart_description"><h4><a href=""></a></h4><p>' + item['product_quantity'] + '</p></td><td class="cart_price"><p>' + new Intl.NumberFormat({ maximumSignificantDigits: 3 }).format(item['product_price']) + 'VNĐ</p></td><td class="cart_quantity"><div class="cart_quantity_button"><input class="cart_qty_update" type="number" data-session_id="' + item['session_id'] + '" min="1" value="' + item['product_qty'] + '" ></div></td><td class="cart_total"><p class="cart_total_price">' + new Intl.NumberFormat({ maximumSignificantDigits: 3 }).format(item['product_price'] * item['product_qty']) + 'VNĐ</p></td><td class="cart_delete"><a class="cart_quantity_delete" style="cursor:pointer" id="' + item['session_id'] + '" onclick="DeleteItemCart(' + item['product_id'] + ')"><i class="fa fa-times"></i></a></td></tr>';
                             }
                         }
                         output += 
@@ -1323,6 +1322,18 @@
                         setTimeout(function() {
                             $('.show_quick_cart_alert').fadeOut(1000);
                         }, 1000);
+                        
+                        //change status addtocart button and removefromcart button
+                        var home_cart = $('.home_cart_' + session_id);
+                            for(var i = 0; i < home_cart.length; i++) {
+                                home_cart[i].style.display = 'inline';
+                            }
+                        var rm_home_cart = $('.rm_home_cart_' + session_id);
+                        for(var i = 0; i < rm_home_cart.length; i++) {
+                            rm_home_cart[i].style.display = 'none';
+                        }
+                        hover_cart();
+                        show_cart();
                         show_quick_cart();
                     }
                 });
@@ -1381,7 +1392,6 @@
                             cart_product_quantity: cart_product_quantity
                         },
                         success: function() {
-                            
                             var home_cart = $('.home_cart_' + id);
                             for(var i = 0; i < home_cart.length; i++) {
                                 home_cart[i].style.display = 'none';
