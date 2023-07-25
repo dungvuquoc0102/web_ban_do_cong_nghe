@@ -233,8 +233,8 @@ class OrderController extends Controller
 			border:1px solid #000;
 		}
 		</style>
-		<h6>Đơn vị:	 Công ty DUYANH.COM</h6>
-		<h6>Địa chỉ: số 1 Đại Cồ Việt, Hai Bà Trưng, Hà Nội</h6>
+		<h6>Đơn vị:	 Công ty QuocDungMobile.com</h6>
+		<h6>Địa chỉ: số 31 Giải Phóng, Hai Bà Trưng, Hà Nội</h6>
 		<h1><center>Phiếu giao hàng</center></h1>
 		<br>
 		<p>Người đặt hàng</p>
