@@ -98,7 +98,7 @@ class ProductController extends Controller
             <div class="row style_comment">
 
                                         <div class="col-md-2">
-                                            <img width="100%" src="' . url('/public/frontend/images/batman-icon.png') . '" class="img img-responsive img-thumbnail">
+                                            <img width="100%" src="' . url('/public/frontend/images/guest-author.jpg') . '" class="img img-responsive img-thumbnail">
                                         </div>
                                         <div class="col-md-10">
                                             <p style="color:green;">@' . $comm->comment_name . '</p>
